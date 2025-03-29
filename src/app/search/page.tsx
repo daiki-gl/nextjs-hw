@@ -37,7 +37,6 @@ export default function Search() {
         } else {
             setSelected([]);
         }
-        console.log(userData)
     }, [userData]);
 
     useEffect(() => {
@@ -65,11 +64,11 @@ export default function Search() {
 
                 <div className="w-full text-center mb-7">
                     <button
-                        onClick={() => setUserData(null)}
+                        onClick={() => setShowUserData(null)}
                         className="mr-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded disabled:bg-blue-200 disabled:cursor-not-allowed">閉じる</button>
                     <button onClick={() =>console.log('hello')} 
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded disabled:bg-blue-200 disabled:cursor-not-allowed" 
-                        disabled={!userData}>追加</button>
+                        disabled={!showUserData}>追加</button>
                 </div>
             </main>
         </div>
