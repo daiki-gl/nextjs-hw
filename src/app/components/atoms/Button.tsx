@@ -6,10 +6,10 @@ export default function Button({ text, onClick, disabled = false, outline = fals
             onClick={onClick}
             disabled={disabled}
             className={`cursor-pointer  
-                ${disabled ? 'opacity-50 cursor-not-allowed' : ''} 
                 ${outline ? 'outline-1 w-48 text-left flex-1/2 hover:outline-white hover:bg-white hover:text-black' : ''}
                 ${noDeco ? 'text-blue-500 hover:text-gray-300 underline inline-block mr-20 text-left' : ''}
                 ${outline == false && noDeco == false ? 'bg-blue-500 rounded-md px-4 py-2 mr-6 mt-4 text-white' : ''}
+                ${disabled ? 'opacity-50 !cursor-not-allowed bg-gray-500' : ''} 
                 `}
         >
             {text}

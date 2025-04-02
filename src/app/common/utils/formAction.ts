@@ -1,3 +1,4 @@
+import { SetStateAction } from 'react'
 import { UserData } from '../types'
 
 export const handleSubmit = (
@@ -24,4 +25,11 @@ export const handleSubmit = (
     setShowUserData(filteredData)
     return
   }
+}
+
+export const handleInputChange = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  setInput: React.Dispatch<SetStateAction<string>>
+) => {
+  setInput(e.target.value)
 }
