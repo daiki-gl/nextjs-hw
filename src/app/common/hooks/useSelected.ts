@@ -16,5 +16,18 @@ export default function useSelected(showUserData: UserData[] | null) {
     }
   }, [showUserData])
 
+  useEffect(() => {
+    const selectedResult = selected.filter((select: boolean) => select == true)
+    if (
+      showUserData &&
+      showUserData.length > 0 &&
+      selectedResult.length == showUserData?.length
+    ) {
+      setSelectedAll(true)
+    } else {
+      setSelectedAll(false)
+    }
+  }, [selected, showUserData])
+
   return { selected, setSelected, selectedAll, setSelectedAll }
 }

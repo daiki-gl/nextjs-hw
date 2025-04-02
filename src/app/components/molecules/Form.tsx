@@ -10,6 +10,7 @@ export default function Form({userData, setShowUserData, onOpen}: {
     setShowUserData: React.Dispatch<SetStateAction<UserData[]>>,
     onOpen: () => void,
 }) {
+
     return (
         <div className="mx-auto w-3/5">
             <form onSubmit={(event)=> handleSubmit(event,userData,setShowUserData)} className="flex justify-between flex-wrap" action='/search' method="get">
