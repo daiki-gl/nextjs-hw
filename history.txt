@@ -1,0 +1,26 @@
+//    useEffect(() => {
+//     if (inputName !== "") {
+//         setNameErr(!inputName.match(regexName));
+//         setIsFormErr(!inputName.match(regexName))
+//     } else {
+//         setNameErr(false)
+//     }
+// },[inputName])
+
+// useEffect(() => {
+//     if(inputPhoneNum !== "") {
+//         setPhoneNumErr(!inputPhoneNum.match(regexPhoneNum))
+//         setIsFormErr(!inputPhoneNum.match(regexPhoneNum))
+//     } else {
+//         setPhoneNumErr(false)
+//     }
+// },[inputPhoneNum])
+
+// useEffect(() => {
+//     if(inputAdr !== "") {
+//         setAdrErr(!inputAdr.match(regexAdr));
+//         setIsFormErr(!inputAdr.match(regexAdr))
+//     } else {
+//         setAdrErr(false)
+//     }
+//    },[inputAdr])

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 import { UserData } from '../types'
 
 export default function useSelected(showUserData: UserData[] | null) {
@@ -29,5 +29,14 @@ export default function useSelected(showUserData: UserData[] | null) {
     }
   }, [selected, showUserData])
 
-  return { selected, setSelected, selectedAll, setSelectedAll }
+  function fetchUserData(
+    id: number,
+    setUserDetails: React.Dispatch<SetStateAction<UserData | undefined>>
+  ): void {
+    console.log({ id })
+    const user = showUserData?.find((user) => user.id === id)
+    setUserDetails(user)
+  }
+
+  return { selected, setSelected, selectedAll, setSelectedAll, fetchUserData }
 }
