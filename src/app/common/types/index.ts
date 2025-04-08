@@ -4,6 +4,7 @@ export interface UserData {
   phone: string
   address: string
   status: boolean
+  payment: number
 }
 
 export interface ButtonProps {
@@ -12,6 +13,7 @@ export interface ButtonProps {
   disabled?: boolean
   outline?: boolean
   noDeco?: boolean
+  type?: 'button' | 'submit' | 'reset'
 }
 export interface ModalProps {
   isOpen: boolean

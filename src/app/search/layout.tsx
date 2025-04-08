@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 export default function Layout({
   children,
@@ -8,7 +9,7 @@ export default function Layout({
     <div className="">
       <header className="flex items-center justify-between p-4 bg-gray-800 text-white">
         <div className="w-3/4 mx-auto">
-          <h1 className="text-2xl font-bold">検索画面ヘッダー</h1>
+          <Link href="/"><h1 className="text-2xl font-bold">検索画面ヘッダー</h1></Link>
         </div>
       </header>
       {children}
