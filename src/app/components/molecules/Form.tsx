@@ -16,7 +16,7 @@ export default function Form({userData, setShowUserData, onOpen}: {
     const [inputName,setInputName] = useState("");
     const [inputPhoneNum,setInputPhoneNum] = useState("");
     const [inputAdr,setInputAdr] = useState("");
-    const [inputPayment, setInputPayment] = useState(0);
+    const [inputPayment, setInputPayment] = useState("");
     const {checkVal,isFormErr,setIsFormErr, nameErr,setNameErr,phoneNumErr,setPhoneNumErr,adrErr,setAdrErr,paymentErr,setPaymentErr} = useValidation();
 
     const [type, setType] = useState<string | null>(null);
@@ -26,15 +26,15 @@ export default function Form({userData, setShowUserData, onOpen}: {
     }, []);
 
     useEffect(() => {
-        const nameValid = checkVal(inputName, regexName, 2, 40);
-        const phoneValid = checkVal(inputPhoneNum, regexPhoneNum, 1, 15);
-        const adrValid = checkVal(inputAdr, regexAdr, 1, 9);
-        const paymentValid = checkVal(inputPayment, regexPayment, 1, 9);
+        const nameValid = checkVal(inputName, regexName, 40);
+        const phoneValid = checkVal(inputPhoneNum, regexPhoneNum, 15);
+        const adrValid = checkVal(inputAdr, regexAdr, 9);
+        const paymentValid = checkVal(inputPayment, regexPayment, 9);
       
         if (type === "list") {
-          setIsFormErr(!(nameValid && phoneValid && adrValid));
+          setIsFormErr(!(nameValid || phoneValid || adrValid));
         } else {
-          setIsFormErr(!(nameValid && phoneValid && paymentValid));
+          setIsFormErr(!(nameValid || phoneValid || paymentValid));
         }
       }, [inputName, inputPhoneNum, inputAdr, inputPayment, type]);
 
@@ -67,7 +67,7 @@ export default function Form({userData, setShowUserData, onOpen}: {
                      >郵便番号</Input>
                  ) : (
                     <Input
-                        inputData={{name:'payment', type:'number', placeholder: '金額入力欄'}}
+                        inputData={{name:'payment', type:'text', placeholder: '金額入力欄'}}
                         inputValue={inputPayment}
                         setInput={setInputPayment}
                         errs={{inputErr: paymentErr,setInputErr: setPaymentErr,setIsFormErr: setIsFormErr,errMsg:'0以上、999999999以下の半角数字で入力してください。'}}
@@ -86,5 +86,3 @@ export default function Form({userData, setShowUserData, onOpen}: {
         </div>
     )
 }
-
-// validationの修正

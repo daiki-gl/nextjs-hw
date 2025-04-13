@@ -1,12 +1,18 @@
 import { SetStateAction } from 'react'
 import { UserData } from '../types'
 
+/*
+ Formのsubmitに関わる関数が格納されている
+ @param event formのevent
+ @param userData APIで取得したユーザー情報一覧
+ @param setShowUserData 表示用のユーザーをsetする関数
+*/
 export const handleSubmit = (
   event: React.FormEvent<HTMLFormElement>,
   userData: UserData[] | null,
   setShowUserData: (value: React.SetStateAction<UserData[]>) => void
 ) => {
-  /**
+  /*
   フォーム送信時のユーザー検索処理
   入力された名前・電話番号・住所・支払い情報で userData をフィルタリングして setShowUserData に反映。
   */
@@ -27,17 +33,57 @@ export const handleSubmit = (
 
   // ユーザーデータが存在する場合フィルタリング
   if (userData) {
+    // const nameMatch = user.name.includes(nameValue)
+    // const phoneMatch = user.phone.includes(phoneValue)
+
+    // if (addressValue) {
+    //   const addressMatch = user.address.includes(addressValue)
+    //   return nameMatch && phoneMatch && addressMatch
+    // }
+    // if (paymentValue) {
+    //検索を一時的に簡単にするためにincludesにしている
+    // const paymentMatch = user.payment.includes(paymentValue)
+    // const paymentMatch = user.payment === paymentValue
+    // return nameMatch && phoneMatch && paymentMatch
+    // }
+    // return nameMatch
+    // const paymentMatch = user.payment.includes(paymentValue)
+
+    // const filteredData = userData.filter((user: UserData) => {
+
+    //   const nameMatch = user.name.includes(nameValue)
+    //   const phoneMatch = user.phone.includes(phoneValue)
+    //   const addressMatch = user.address.includes(addressValue)
+
+    //   if (nameValue && phoneValue && addressValue) {
+    //     return nameMatch && phoneMatch && addressMatch
+    //   } else if (nameValue && phoneValue) {
+    //     return nameMatch && phoneMatch
+    //   } else if (nameValue && addressValue) {
+    //     return nameMatch && addressMatch
+    //   } else if (phoneValue && addressValue) {
+    //     return phoneMatch && addressMatch
+    //   } else if (nameValue) {
+    //     return nameMatch
+    //   } else if (phoneValue) {
+    //     return phoneMatch
+    //   } else if (addressValue) {
+    //     return addressMatch
+    //   }
+    // })
+
     const filteredData = userData.filter((user: UserData) => {
-      const nameMatch = user.name.includes(nameValue)
-      const phoneMatch = user.phone.includes(phoneValue)
-      if (addressValue) {
-        const addressMatch = user.address.includes(addressValue)
-        return nameMatch && phoneMatch && addressMatch
-      }
-      if (paymentValue) {
-        const paymentMatch = user.payment === Number(paymentValue)
-        return nameMatch && phoneMatch && paymentMatch
-      }
+      const filters = [
+        { value: nameValue, match: user.name.includes(nameValue) },
+        { value: phoneValue, match: user.phone.includes(phoneValue) },
+        { value: addressValue, match: user.address.includes(addressValue) },
+        { value: paymentValue, match: user.payment.includes(paymentValue) },
+      ]
+
+      // 入力されたフィールドがすべて一致するかどうかをチェック
+      return filters
+        .filter((f) => f.value) // 入力された値だけを対象にする
+        .every((f) => f.match) // すべての条件が一致するか確認
     })
     setShowUserData(filteredData)
     return

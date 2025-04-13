@@ -18,16 +18,10 @@ export const useValidation = () => {
   const checkVal = (
     inputVal: string | number,
     regex: RegExp,
-    min: number = 0,
     max: number = 40
   ) => {
     if (typeof inputVal === 'string') {
-      return (
-        !(inputVal === '' || min > inputVal.length || max < inputVal.length) &&
-        regex.test(inputVal)
-      )
-    } else {
-      return inputVal > 0 && inputVal <= 999999999
+      return !(max < inputVal.length) && regex.test(inputVal)
     }
   }
 
