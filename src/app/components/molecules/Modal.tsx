@@ -8,6 +8,7 @@ interface ModalProps {
 }
 
 export default function Modal({isOpen, onClose}: ModalProps) {
+    // closeの時はnullを返す
     if (!isOpen) return null;
 
     return (

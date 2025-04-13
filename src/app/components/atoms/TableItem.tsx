@@ -18,6 +18,10 @@ export default function TableItem({selected, setSelected, isCheckBox = false, i,
     return (
         <>
         {
+            /* 
+             ユーザー詳細情報の時ボタン要素を追加
+             モーダルを開き、詳細情報を表示
+            */
             isLink ? (
                 <td>
                 <button className="py-2 px-4 cursor-pointer w-full hover:text-gray-400" 
@@ -34,6 +38,10 @@ export default function TableItem({selected, setSelected, isCheckBox = false, i,
             ) : (
         <td className="py-2 px-4">
             {
+                /*
+                 チェックボックスを追加
+                 onChangeでチェックボックスの判定をしている
+                */
                 isCheckBox && (
                     <input
                     type="checkbox" 

@@ -13,18 +13,27 @@ export default function Form({userData, setShowUserData, onOpen}: {
     setShowUserData: React.Dispatch<SetStateAction<UserData[]>>,
     onOpen: () => void,
 }) {
+    /*
+     フォーム全体のstateを管理する関数
+     useValidation バリデーションチェックで使用するカスタムhook
+    */
     const [inputName,setInputName] = useState("");
     const [inputPhoneNum,setInputPhoneNum] = useState("");
     const [inputAdr,setInputAdr] = useState("");
     const [inputPayment, setInputPayment] = useState("");
     const {checkVal,isFormErr,setIsFormErr, nameErr,setNameErr,phoneNumErr,setPhoneNumErr,adrErr,setAdrErr,paymentErr,setPaymentErr} = useValidation();
 
+    // セッションから検索タイプを取得（"list" または "detail"）して状態に保存
     const [type, setType] = useState<string | null>(null);
     useEffect(() => {
         const storedType = sessionStorage.getItem("searchType");
         setType(storedType);
     }, []);
 
+    /*
+     各入力値をバリデーションチェックし、
+     検索タイプに応じてフォーム全体のエラー状態を更新
+    */
     useEffect(() => {
         const nameValid = checkVal(inputName, regexName, 40);
         const phoneValid = checkVal(inputPhoneNum, regexPhoneNum, 15);
@@ -57,6 +66,7 @@ export default function Form({userData, setShowUserData, onOpen}: {
                     errs={{inputErr: phoneNumErr,setInputErr: setPhoneNumErr,setIsFormErr: setIsFormErr,errMsg:'3桁以上、15桁以下の半角数字で入力してください。'}}
                     regex={regexPhoneNum}
                  >電話番号</Input>
+                 {/* typeで表示するフォームを変更 */}
                  {type === "list" ? (
                      <Input 
                          inputData={{name:'address',type:'text',placeholder:'郵便番号入力欄'}}
@@ -76,10 +86,12 @@ export default function Form({userData, setShowUserData, onOpen}: {
                  )}
 
                 <div className="mt-10 flex-1/2">
+                {/* helpのモーダル表示 */}
                     <Button text="help" noDeco={true} onClick={(event) => {
                             event.preventDefault()
                             onOpen()
                         }} />
+                    {/* 検索ボタン */}
                     <Button type={"submit"} text="検索" outline={true} disabled={isFormErr} />
                 </div>
             </form>

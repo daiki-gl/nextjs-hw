@@ -12,6 +12,10 @@ export default function SearchPanel({showUserData, setShowUserData}
         setShowUserData: React.Dispatch<SetStateAction<UserData[]>>;
     }) {
 
+    /*
+    useModal モーダルの開閉の操作をするカスタムhook
+    useUserList APIからユーザーの取得、ユーザーをセットするカスタムhook
+    */
     const {isOpen, openModal, closeModal} = useModal();
     const {getUsersFunction,users} = useUserList();
     useEffect(() => {

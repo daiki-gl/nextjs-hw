@@ -13,19 +13,26 @@ export default function UserList({showUserData, setShowUserData}
         showUserData: UserData[] | null; 
         setShowUserData: React.Dispatch<SetStateAction<UserData[]>>;
     } ) {
+    /*
+     useSelected チェックボックスのchecked/uncheckedの操作するカスタムhook
+     useModal モーダルの開閉の操作をするカスタムhook
+     userDetails/setUserDetails ユーザーの詳細情報を保持、setする関数
+    */
    const {selected,selectedAll,setSelected,setSelectedAll, fetchUserData} = useSelected(showUserData);
    const {openModal, closeModal, isOpen} = useModal();
-
    const [userDetails, setUserDetails] = useState<UserData>();
         
     return (
         <div className="w-3/5 mx-auto my-10">
             <h1 className="text-2xl font-bold">検索結果 *{showUserData && showUserData.length}件</h1>
+
+            {/* ユーザーの一覧表示用のテーブル */}
             <table className="w-full mt-5">
                 <TableHeader select={{selectedAll,setSelectedAll,selected,setSelected}} />
                 <TableBody showUserData={showUserData} selected={selected} setSelected={setSelected} modalData={{openModal,closeModal}} fetchUserData={fetchUserData} setUserDetails={setUserDetails} />
             </table>
 
+            {/* isOpenの時ユーザーの詳細情報の表示 */}
             {isOpen && userDetails && (
                 <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-5 rounded shadow-lg">
@@ -43,7 +50,9 @@ export default function UserList({showUserData, setShowUserData}
             )}
             
             <div className="w-full text-center my-7">
+                {/* 表示されているユーザーを消す */}
                     <Button text="閉じる" onClick={() => setShowUserData([])} />
+                {/* ユーザーの追加ボタン(まだ未実装) */}
                     <Button disabled={showUserData == null || showUserData.length == 0} text="追加" />
                 </div>
         </div>
