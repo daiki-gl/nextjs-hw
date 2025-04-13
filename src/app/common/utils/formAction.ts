@@ -6,17 +6,26 @@ export const handleSubmit = (
   userData: UserData[] | null,
   setShowUserData: (value: React.SetStateAction<UserData[]>) => void
 ) => {
+  /**
+  フォーム送信時のユーザー検索処理
+  入力された名前・電話番号・住所・支払い情報で userData をフィルタリングして setShowUserData に反映。
+  */
   event.preventDefault()
+
+  /* 各インプット要素を取得 */
   const form = event.currentTarget
   const nameInput = form.elements.namedItem('name') as HTMLInputElement
   const phoneInput = form.elements.namedItem('phone') as HTMLInputElement
   const addressInput = form.elements.namedItem('address') as HTMLInputElement
   const paymentInput = form.elements.namedItem('payment') as HTMLInputElement
+
+  /* 各入力値取得 */
   const nameValue = nameInput.value
   const phoneValue = phoneInput.value
   const addressValue = addressInput?.value
   const paymentValue = paymentInput?.value
 
+  // ユーザーデータが存在する場合フィルタリング
   if (userData) {
     const filteredData = userData.filter((user: UserData) => {
       const nameMatch = user.name.includes(nameValue)
@@ -35,6 +44,10 @@ export const handleSubmit = (
   }
 }
 
+/*
+ フォームの入力変更時に、状態を更新する。
+ 数値と文字列の型に応じて適切な setState を使い分ける。
+ */
 export const handleInputChange = (
   e: React.ChangeEvent<HTMLInputElement>,
   setInput:
@@ -49,6 +62,12 @@ export const handleInputChange = (
   }
 }
 
+/*
+ 入力値の正規表現チェック。
+ - 正しい形式 → エラー解除
+ - 空文字 → 入力エラーなし・フォームエラーあり
+ - 不正な形式 → 入力エラーあり・フォームエラーあり
+ */
 export const handleErrCheck = (
   regex: RegExp,
   inputData: string,

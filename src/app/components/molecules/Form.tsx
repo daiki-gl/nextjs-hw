@@ -27,8 +27,8 @@ export default function Form({userData, setShowUserData, onOpen}: {
 
     useEffect(() => {
         const nameValid = checkVal(inputName, regexName, 2, 40);
-        const phoneValid = checkVal(inputPhoneNum, regexPhoneNum, 3, 15);
-        const adrValid = checkVal(inputAdr, regexAdr, 3, 9);
+        const phoneValid = checkVal(inputPhoneNum, regexPhoneNum, 1, 15);
+        const adrValid = checkVal(inputAdr, regexAdr, 1, 9);
         const paymentValid = checkVal(inputPayment, regexPayment, 1, 9);
       
         if (type === "list") {
