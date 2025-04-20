@@ -20,7 +20,8 @@ export default function Form({userData, setShowUserData, onOpen}: {
     const [inputName,setInputName] = useState("");
     const [inputPhoneNum,setInputPhoneNum] = useState("");
     const [inputAdr,setInputAdr] = useState("");
-    const [inputPayment, setInputPayment] = useState("");
+    const [inputPaymentFrom, setInputPaymentFrom] = useState("");
+    const [inputPaymentTo, setInputPaymentTo] = useState("");
     const {checkVal,isFormErr,setIsFormErr, nameErr,setNameErr,phoneNumErr,setPhoneNumErr,adrErr,setAdrErr,paymentErr,setPaymentErr} = useValidation();
 
     // セッションから検索タイプを取得（"list" または "detail"）して状態に保存
@@ -38,14 +39,15 @@ export default function Form({userData, setShowUserData, onOpen}: {
         const nameValid = checkVal(inputName, regexName, 40);
         const phoneValid = checkVal(inputPhoneNum, regexPhoneNum, 15);
         const adrValid = checkVal(inputAdr, regexAdr, 9);
-        const paymentValid = checkVal(inputPayment, regexPayment, 9);
+        const paymentFromValid = checkVal(inputPaymentFrom, regexPayment, 9);
+        const paymentToValid = checkVal(inputPaymentTo, regexPayment, 9);
       
         if (type === "list") {
           setIsFormErr(!(nameValid || phoneValid || adrValid));
         } else {
-          setIsFormErr(!(nameValid || phoneValid || paymentValid));
+          setIsFormErr(!(nameValid || phoneValid || paymentFromValid || paymentToValid));
         }
-      }, [inputName, inputPhoneNum, inputAdr, inputPayment, type]);
+      }, [inputName, inputPhoneNum, inputAdr, inputPaymentFrom,inputPaymentTo, type]);
 
     return (
         <div className="mx-auto w-3/5">
@@ -76,16 +78,26 @@ export default function Form({userData, setShowUserData, onOpen}: {
                          regex={regexAdr}
                      >郵便番号</Input>
                  ) : (
+                    <>
+                     <div className="shrink-0 w-[785px] pt-2 -mb-3">支払い金額</div>
                     <Input
-                        inputData={{name:'payment', type:'text', placeholder: '金額入力欄'}}
-                        inputValue={inputPayment}
-                        setInput={setInputPayment}
+                        inputData={{name:'payment-from', type:'text', placeholder: '金額入力欄'}}
+                        inputValue={inputPaymentFrom}
+                        setInput={setInputPaymentFrom}
                         errs={{inputErr: paymentErr,setInputErr: setPaymentErr,setIsFormErr: setIsFormErr,errMsg:'0以上、999999999以下の半角数字で入力してください。'}}
                         regex={/^[0-9]{1,9}$/}
-                    >支払い金額</Input>
+                    >From</Input>
+                    <Input
+                        inputData={{name:'payment-to', type:'text', placeholder: '金額入力欄'}}
+                        inputValue={inputPaymentTo}
+                        setInput={setInputPaymentTo}
+                        errs={{inputErr: paymentErr,setInputErr: setPaymentErr,setIsFormErr: setIsFormErr,errMsg:'0以上、999999999以下の半角数字で入力してください。'}}
+                        regex={/^[0-9]{1,9}$/}
+                    >To</Input>
+                    </>
                  )}
 
-                <div className="mt-10 flex-1/2">
+                <div className={`mt-10 ${type === "list" ? "flex-1/2" : "mx-auto"} `}>
                 {/* helpのモーダル表示 */}
                     <Button text="help" noDeco={true} onClick={(event) => {
                             event.preventDefault()

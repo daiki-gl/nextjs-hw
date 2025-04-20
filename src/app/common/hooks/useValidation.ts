@@ -21,6 +21,7 @@ export const useValidation = () => {
     max: number = 40
   ) => {
     if (typeof inputVal === 'string') {
+      console.log(regex.test(inputVal))
       return !(max < inputVal.length) && regex.test(inputVal)
     }
   }

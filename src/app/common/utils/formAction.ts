@@ -33,45 +33,6 @@ export const handleSubmit = (
 
   // ユーザーデータが存在する場合フィルタリング
   if (userData) {
-    // const nameMatch = user.name.includes(nameValue)
-    // const phoneMatch = user.phone.includes(phoneValue)
-
-    // if (addressValue) {
-    //   const addressMatch = user.address.includes(addressValue)
-    //   return nameMatch && phoneMatch && addressMatch
-    // }
-    // if (paymentValue) {
-    //検索を一時的に簡単にするためにincludesにしている
-    // const paymentMatch = user.payment.includes(paymentValue)
-    // const paymentMatch = user.payment === paymentValue
-    // return nameMatch && phoneMatch && paymentMatch
-    // }
-    // return nameMatch
-    // const paymentMatch = user.payment.includes(paymentValue)
-
-    // const filteredData = userData.filter((user: UserData) => {
-
-    //   const nameMatch = user.name.includes(nameValue)
-    //   const phoneMatch = user.phone.includes(phoneValue)
-    //   const addressMatch = user.address.includes(addressValue)
-
-    //   if (nameValue && phoneValue && addressValue) {
-    //     return nameMatch && phoneMatch && addressMatch
-    //   } else if (nameValue && phoneValue) {
-    //     return nameMatch && phoneMatch
-    //   } else if (nameValue && addressValue) {
-    //     return nameMatch && addressMatch
-    //   } else if (phoneValue && addressValue) {
-    //     return phoneMatch && addressMatch
-    //   } else if (nameValue) {
-    //     return nameMatch
-    //   } else if (phoneValue) {
-    //     return phoneMatch
-    //   } else if (addressValue) {
-    //     return addressMatch
-    //   }
-    // })
-
     const filteredData = userData.filter((user: UserData) => {
       const filters = [
         { value: nameValue, match: user.name.includes(nameValue) },
@@ -86,6 +47,9 @@ export const handleSubmit = (
         .every((f) => f.match) // すべての条件が一致するか確認
     })
     setShowUserData(filteredData)
+
+    // テスト用ローカルJSONデータ全て表示
+    setShowUserData(userData)
     return
   }
 }
