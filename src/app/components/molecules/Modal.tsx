@@ -8,11 +8,12 @@ interface ModalProps {
 }
 
 export default function Modal({isOpen, onClose}: ModalProps) {
+    // closeの時はnullを返す
     if (!isOpen) return null;
 
     return (
-        <div className={`fixed inset-0 z-50 bg-black bg-opacity-50`}>
-            <div className="fixed inset-0 flex items-center justify-center">
+        <div className={`fixed inset-0 z-50 bg-white bg-opacity-50 shadow-sm`}>
+            <div className="fixed inset-0 flex items-center justify-center bg-white">
                 <div className="relative w-full max-w-md bg-white rounded-md">
                     <ModalHeader />
                     <ModalBody />

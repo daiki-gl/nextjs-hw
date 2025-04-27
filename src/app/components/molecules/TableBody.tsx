@@ -20,6 +20,7 @@ export default function TableBody({showUserData,selected,setSelected, modalData,
             return (
                     <tr key={i} className="border-b border-gray-300">
                         <TableItem selected={selected} setSelected={setSelected} i={i} isCheckBox={true} />
+                        {/* ユーザーの詳細情報を表示するためのカラム */}
                         <TableItem selected={selected} setSelected={setSelected} i={i} isLink={true} openModal={modalData.openModal} fetchUserData={fetchUserData} setUserDetails={setUserDetails} id={user.id}>{user.name}</TableItem>
                         <TableItem selected={selected} setSelected={setSelected} i={i}>{user.phone}</TableItem>
                         <TableItem selected={selected} setSelected={setSelected} i={i}>{user.address}</TableItem>

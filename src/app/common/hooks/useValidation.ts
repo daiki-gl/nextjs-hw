@@ -1,27 +1,28 @@
 import { useState } from 'react'
 
 export const useValidation = () => {
+  /* フォーム、各インプット要素のエラーのstate */
   const [nameErr, setNameErr] = useState<boolean>(false)
   const [phoneNumErr, setPhoneNumErr] = useState<boolean>(false)
   const [adrErr, setAdrErr] = useState<boolean>(false)
-  const [paymentErr, setPaymentErr] = useState<boolean>(false)
+  const [paymentFromErr, setPaymentFromErr] = useState<boolean>(false)
+  const [paymentToErr, setPaymentToErr] = useState<boolean>(false)
   const [isFormErr, setIsFormErr] = useState(true)
 
-  const checkVal = (
-    inputVal: string | number,
-    regex: RegExp,
-    min: number = 0,
-    max: number = 40
-  ) => {
-    if (typeof inputVal === 'string') {
-      return (
-        !(inputVal === '' || min > inputVal.length || max < inputVal.length) &&
-        regex.test(inputVal)
-      )
-    } else {
-      return inputVal > 0 && inputVal <= 999999999
+  /* 
+  バリデーションチェック用の関数
+  @param inputVal チェック対象のフォームの入力値
+  @pram regex チェック用の正規表現
+  @param min, max 最小値、最大値
+  @returns バリデーションチェックの結果 true/false
+  */
+  const checkVal = (inputVal: string, regex: RegExp, max: number = 40) => {
+    if (max < inputVal.length) {
+      return false
     }
+    return regex.test(inputVal)
   }
+
   return {
     checkVal,
     nameErr,
@@ -32,7 +33,9 @@ export const useValidation = () => {
     setAdrErr,
     isFormErr,
     setIsFormErr,
-    paymentErr,
-    setPaymentErr,
+    paymentFromErr,
+    setPaymentFromErr,
+    paymentToErr,
+    setPaymentToErr,
   }
 }

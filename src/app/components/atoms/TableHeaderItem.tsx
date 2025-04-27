@@ -8,7 +8,9 @@ export default function TableHeaderItem({text, isCheckBox = false, select
     }) {
     return (
         <th className="text-left py-2 px-4">
-            {isCheckBox ? (
+            {
+            /* チェックボックスの時全選択をするボタンの追加 */
+            isCheckBox ? (
                     <input 
                         type="checkbox"
                         checked={select?.selectedAll == true}

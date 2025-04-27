@@ -4,7 +4,7 @@ export interface UserData {
   phone: string
   address: string
   status: boolean
-  payment: number
+  payment: string
 }
 
 export interface ButtonProps {

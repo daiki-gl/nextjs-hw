@@ -1,25 +1,44 @@
 import { SetStateAction, useEffect, useState } from 'react'
 import { UserData } from '../types'
 
+/*
+  ユーザーをidから検索
+  @param setUserDetails ユーザーの詳細情報をsetする関数
+  
+  ユーザーのチェックボックス用
+  @returns selected ユーザー毎のチェックボックスのcheckedの確認
+  @returns selectedAll showUserDataのユーザー全体のcheckedの確認
+  @returns setSelected selectedの更新用
+  @returns setSelectedAll selectedAllの更新用
+  */
 export default function useSelected(showUserData: UserData[] | null) {
   const [selected, setSelected] = useState<boolean[]>([])
   const [selectedAll, setSelectedAll] = useState<boolean | 'indeterminate'>(
     false
   )
 
+  /*
+  showUserDataの更新時にselectedのcheckの有無の確認と更新
+  */
   useEffect(() => {
     if (showUserData && showUserData.length > 0) {
-      const newSelected = showUserData.map(() => false)
+      const newSelected = showUserData.map(() => false) //shoUserDataにfalseを割り当てている
       setSelected(newSelected)
     } else {
       setSelected([])
     }
   }, [showUserData])
 
-  useEffect(() => {
-    const selectedResult = selected.filter((select: boolean) => select == true)
+  /*
+  selectedAllをtrue/falseに更新
+  */
+  function handleSelectAll(
+    selected: boolean[],
+    showUserData: UserData[],
+    setSelectedAll: React.Dispatch<SetStateAction<boolean | 'indeterminate'>>
+  ) {
+    const selectedResult = selected.filter((select: boolean) => select == true) // trueのユーザーをfilter
     if (
-      showUserData &&
       showUserData.length > 0 &&
       selectedResult.length == showUserData?.length
     ) {
@@ -27,16 +46,38 @@ export default function useSelected(showUserData: UserData[] | null) {
     } else {
       setSelectedAll(false)
     }
+  }
+  useEffect(() => {
+    if (showUserData !== null) {
+      handleSelectAll(selected, showUserData, setSelectedAll)
+    }
   }, [selected, showUserData])
 
+  function handleSelectAllReset() {
+    setSelectedAll(false)
+    setSelected(showUserData ? showUserData.map(() => false) : [])
+  }
+
+  /*
+  ユーザーをidから検索
+  @param id ユーザーID
+  @param setUserDetails ユーザーの詳細情報をsetする関数
+  */
   function fetchUserData(
     id: number,
     setUserDetails: React.Dispatch<SetStateAction<UserData | undefined>>
   ): void {
-    console.log({ id })
     const user = showUserData?.find((user) => user.id === id)
     setUserDetails(user)
   }
 
-  return { selected, setSelected, selectedAll, setSelectedAll, fetchUserData }
+  return {
+    selected,
+    setSelected,
+    selectedAll,
+    setSelectedAll,
+    fetchUserData,
+    handleSelectAll,
+    handleSelectAllReset,
+  }
 }
