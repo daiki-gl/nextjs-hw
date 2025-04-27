@@ -24,7 +24,7 @@ export default function TableItem({selected, setSelected, isCheckBox = false, i,
             */
             isLink ? (
                 <td>
-                <button className="py-2 px-4 cursor-pointer w-full hover:text-gray-400" 
+                <button className="py-2 px-4 cursor-pointer w-full hover:text-gray-400 underline underline-offset-2" 
                         onClick={() => {
                             if (fetchUserData && setUserDetails && openModal) {
                                 fetchUserData(id,setUserDetails);

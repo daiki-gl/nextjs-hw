@@ -1,17 +1,61 @@
 'use client'
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useState } from "react";
 import { UserData } from "../../common/types";
 import Button from "../atoms/Button";
 import Input from "../atoms/Input";
 import { handleSubmit } from "@/app/common/utils/formAction";
 import { regexAdr, regexName, regexPayment, regexPhoneNum } from "@/app/common/utils/regex";
 import { useValidation } from "@/app/common/hooks/useValidation";
+import useSelected from "@/app/common/hooks/useSelected";
 
-export default function Form({userData, setShowUserData, onOpen}: {
+
+    /*
+     各入力値をバリデーションチェックし、
+     検索タイプに応じてフォーム全体のエラー状態を更新
+    */
+export const validateForm = (
+    inputName: string,
+    inputPhoneNum: string,
+    inputAdr: string,
+    inputPaymentFrom: string,
+    inputPaymentTo: string,
+    type: string | null,
+    setIsFormErr: React.Dispatch<React.SetStateAction<boolean>>,
+    checkVal: (inputVal: string, regex: RegExp, max: number) => boolean
+  ) => {
+    const nameValid = checkVal(inputName, regexName, 40);
+    const phoneValid = checkVal(inputPhoneNum, regexPhoneNum, 15);
+    const adrValid = checkVal(inputAdr, regexAdr, 9);
+    const paymentFromValid = checkVal(inputPaymentFrom, regexPayment, 9);
+    const paymentToValid = checkVal(inputPaymentTo, regexPayment, 9);
+  
+    if (type === "list") {
+        console.log({nameValid,phoneValid, adrValid, paymentFromValid,paymentToValid})
+        if(inputName === "" && inputPhoneNum === "" && inputAdr === "") {
+            setIsFormErr(true);
+        } else if(nameValid && phoneValid && adrValid) {
+            setIsFormErr(false);
+        }
+        else {
+            setIsFormErr(true);
+        }
+    } else {
+        if(inputName === "" && inputPhoneNum === "" && inputPaymentFrom === "" && inputPaymentTo === "") {
+            setIsFormErr(true);
+        } else if(nameValid && phoneValid && paymentFromValid && paymentToValid) {
+           setIsFormErr(false);
+       }
+         else {
+            setIsFormErr(true);
+        }
+  }}
+
+export default function Form({userData, setShowUserData, onOpen, type}: {
     userData: UserData[] | null, 
     showUserData: UserData[] | null,
     setShowUserData: React.Dispatch<SetStateAction<UserData[]>>,
     onOpen: () => void,
+    type: string | null
 }) {
     /*
      フォーム全体のstateを管理する関数
@@ -22,37 +66,19 @@ export default function Form({userData, setShowUserData, onOpen}: {
     const [inputAdr,setInputAdr] = useState("");
     const [inputPaymentFrom, setInputPaymentFrom] = useState("");
     const [inputPaymentTo, setInputPaymentTo] = useState("");
-    const {checkVal,isFormErr,setIsFormErr, nameErr,setNameErr,phoneNumErr,setPhoneNumErr,adrErr,setAdrErr,paymentErr,setPaymentErr} = useValidation();
 
-    // セッションから検索タイプを取得（"list" または "detail"）して状態に保存
-    const [type, setType] = useState<string | null>(null);
-    useEffect(() => {
-        const storedType = sessionStorage.getItem("searchType");
-        setType(storedType);
-    }, []);
-
-    /*
-     各入力値をバリデーションチェックし、
-     検索タイプに応じてフォーム全体のエラー状態を更新
-    */
-    useEffect(() => {
-        const nameValid = checkVal(inputName, regexName, 40);
-        const phoneValid = checkVal(inputPhoneNum, regexPhoneNum, 15);
-        const adrValid = checkVal(inputAdr, regexAdr, 9);
-        const paymentFromValid = checkVal(inputPaymentFrom, regexPayment, 9);
-        const paymentToValid = checkVal(inputPaymentTo, regexPayment, 9);
-      
-        if (type === "list") {
-          setIsFormErr(!(nameValid || phoneValid || adrValid));
-        } else {
-          setIsFormErr(!(nameValid || phoneValid || paymentFromValid || paymentToValid));
-        }
-      }, [inputName, inputPhoneNum, inputAdr, inputPaymentFrom,inputPaymentTo, type]);
+    const {checkVal,isFormErr,setIsFormErr, nameErr,setNameErr,phoneNumErr,setPhoneNumErr,adrErr,setAdrErr,paymentToErr,paymentFromErr,setPaymentToErr,setPaymentFromErr} = useValidation();
+    const {handleSelectAllReset} = useSelected(userData)
 
     return (
         <div className="mx-auto w-3/5">
             <form 
-            onSubmit={(event)=> handleSubmit(event,userData,setShowUserData)} 
+            onSubmit={(event)=> {
+                handleSubmit(event,userData,setShowUserData);
+                if(userData) {
+                    handleSelectAllReset();
+                }
+            }} 
             className="flex justify-between flex-wrap" action='/search' method="get">
                 <Input 
                     inputData={{name:'name',type:'text',placeholder:'名前入力欄'}}
@@ -60,6 +86,7 @@ export default function Form({userData, setShowUserData, onOpen}: {
                     setInput={setInputName} 
                     errs={{inputErr:nameErr,setInputErr: setNameErr,setIsFormErr: setIsFormErr,errMsg:'2文字以上、40文字以下の全角英数字で入力してください。'}}
                     regex={regexName}
+                    validation={() => validateForm(inputName, inputPhoneNum, inputAdr, inputPaymentFrom, inputPaymentTo, type, setIsFormErr, checkVal)}
                 >名前</Input>
                 <Input 
                     inputData={{name:'phone',type:'text',placeholder:'電話番号入力欄',}}
@@ -67,6 +94,7 @@ export default function Form({userData, setShowUserData, onOpen}: {
                     setInput={setInputPhoneNum} 
                     errs={{inputErr: phoneNumErr,setInputErr: setPhoneNumErr,setIsFormErr: setIsFormErr,errMsg:'3桁以上、15桁以下の半角数字で入力してください。'}}
                     regex={regexPhoneNum}
+                    validation={() => validateForm(inputName, inputPhoneNum, inputAdr, inputPaymentFrom, inputPaymentTo, type, setIsFormErr, checkVal)}
                  >電話番号</Input>
                  {/* typeで表示するフォームを変更 */}
                  {type === "list" ? (
@@ -76,6 +104,7 @@ export default function Form({userData, setShowUserData, onOpen}: {
                          setInput={setInputAdr} 
                          errs={{inputErr: adrErr,setInputErr: setAdrErr,setIsFormErr: setIsFormErr,errMsg:'1桁以上、9桁以下の半角数字で入力してください。'}} 
                          regex={regexAdr}
+                         validation={() => validateForm(inputName, inputPhoneNum, inputAdr, inputPaymentFrom, inputPaymentTo, type, setIsFormErr, checkVal)}
                      >郵便番号</Input>
                  ) : (
                     <>
@@ -84,15 +113,17 @@ export default function Form({userData, setShowUserData, onOpen}: {
                         inputData={{name:'payment-from', type:'text', placeholder: '金額入力欄'}}
                         inputValue={inputPaymentFrom}
                         setInput={setInputPaymentFrom}
-                        errs={{inputErr: paymentErr,setInputErr: setPaymentErr,setIsFormErr: setIsFormErr,errMsg:'0以上、999999999以下の半角数字で入力してください。'}}
-                        regex={/^[0-9]{1,9}$/}
+                        errs={{inputErr: paymentFromErr,setInputErr: setPaymentFromErr,setIsFormErr: setIsFormErr,errMsg:'0以上、999999999以下の半角数字で入力してください。'}}
+                        regex={regexPayment}
+                        validation={() => validateForm(inputName, inputPhoneNum, inputAdr, inputPaymentFrom, inputPaymentTo, type, setIsFormErr, checkVal)}
                     >From</Input>
                     <Input
                         inputData={{name:'payment-to', type:'text', placeholder: '金額入力欄'}}
                         inputValue={inputPaymentTo}
                         setInput={setInputPaymentTo}
-                        errs={{inputErr: paymentErr,setInputErr: setPaymentErr,setIsFormErr: setIsFormErr,errMsg:'0以上、999999999以下の半角数字で入力してください。'}}
-                        regex={/^[0-9]{1,9}$/}
+                        errs={{inputErr: paymentToErr,setInputErr: setPaymentToErr,setIsFormErr: setIsFormErr,errMsg:'0以上、999999999以下の半角数字で入力してください。'}}
+                        regex={regexPayment}
+                        validation={() => validateForm(inputName, inputPhoneNum, inputAdr, inputPaymentFrom, inputPaymentTo, type, setIsFormErr, checkVal)}
                     >To</Input>
                     </>
                  )}

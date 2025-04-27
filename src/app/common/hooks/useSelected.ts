@@ -32,10 +32,13 @@ export default function useSelected(showUserData: UserData[] | null) {
   /*
   selectedAllをtrue/falseに更新
   */
-  useEffect(() => {
+  function handleSelectAll(
+    selected: boolean[],
+    showUserData: UserData[],
+    setSelectedAll: React.Dispatch<SetStateAction<boolean | 'indeterminate'>>
+  ) {
     const selectedResult = selected.filter((select: boolean) => select == true) // trueのユーザーをfilter
     if (
-      showUserData &&
       showUserData.length > 0 &&
       selectedResult.length == showUserData?.length
     ) {
@@ -43,7 +46,19 @@ export default function useSelected(showUserData: UserData[] | null) {
     } else {
       setSelectedAll(false)
     }
+  }
+  useEffect(() => {
+    if (showUserData !== null) {
+      handleSelectAll(selected, showUserData, setSelectedAll)
+    }
   }, [selected, showUserData])
+
+  function handleSelectAllReset() {
+    setSelectedAll(false)
+    setSelected(showUserData ? showUserData.map(() => false) : [])
+
+    console.log({ selected }, { selectedAll })
+  }
 
   /*
   ユーザーをidから検索
@@ -58,5 +73,13 @@ export default function useSelected(showUserData: UserData[] | null) {
     setUserDetails(user)
   }
 
-  return { selected, setSelected, selectedAll, setSelectedAll, fetchUserData }
+  return {
+    selected,
+    setSelected,
+    selectedAll,
+    setSelectedAll,
+    fetchUserData,
+    handleSelectAll,
+    handleSelectAllReset,
+  }
 }

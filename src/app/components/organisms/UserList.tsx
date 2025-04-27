@@ -34,9 +34,11 @@ export default function UserList({showUserData, setShowUserData}
 
             {/* isOpenの時ユーザーの詳細情報の表示 */}
             {isOpen && userDetails && (
-                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-5 rounded shadow-lg">
-                        <h2 className="text-xl font-bold mb-4 text-black border-b-2">詳細情報</h2>
+                <>
+                <div className="fixed w-screen h-screen top-0 left-0 bg-white opacity-70"></div>
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="bg-white p-5 rounded shadow-xl">
+                        <h2 className="text-xl font-bold mb-4 text-black border-b-2 min-w-xs">詳細情報</h2>
                         <ul className="text-black">
                             <li>名前：{userDetails.name}</li>
                             <li>電話番号：{userDetails.phone}</li>
@@ -47,6 +49,7 @@ export default function UserList({showUserData, setShowUserData}
                         <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded" onClick={closeModal}>閉じる</button>
                     </div>
                 </div>
+                </>
             )}
             
             <div className="w-full text-center my-7">

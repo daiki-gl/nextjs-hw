@@ -50,6 +50,7 @@ export const handleSubmit = (
 
     // テスト用ローカルJSONデータ全て表示
     setShowUserData(userData)
+
     return
   }
 }
@@ -84,13 +85,19 @@ export const handleErrCheck = (
   setInputErr: React.Dispatch<SetStateAction<boolean>>,
   setIsFormErr: React.Dispatch<SetStateAction<boolean>>
 ) => {
-  if (inputData.match(regex)) {
-    setInputErr(false)
-  } else if (inputData === '') {
-    setInputErr(false)
-    setIsFormErr(true)
-  } else {
-    setInputErr(true)
-    setIsFormErr(true)
-  }
+  // if (inputData.match(regex)) {
+  //   setInputErr(false)
+  // } else if (inputData === '') {
+  //   setInputErr(false)
+  //   setIsFormErr(true)
+  // } else {
+  //   setInputErr(true)
+  //   setIsFormErr(true)
+  // }
+
+  const isValid = regex.test(inputData)
+  setInputErr(!isValid) // 項目個別のエラー更新
+
+  // フォーム全体のエラーを更新（※ここでは簡易的に）
+  setIsFormErr(!isValid)
 }

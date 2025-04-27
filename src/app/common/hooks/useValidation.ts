@@ -5,7 +5,8 @@ export const useValidation = () => {
   const [nameErr, setNameErr] = useState<boolean>(false)
   const [phoneNumErr, setPhoneNumErr] = useState<boolean>(false)
   const [adrErr, setAdrErr] = useState<boolean>(false)
-  const [paymentErr, setPaymentErr] = useState<boolean>(false)
+  const [paymentFromErr, setPaymentFromErr] = useState<boolean>(false)
+  const [paymentToErr, setPaymentToErr] = useState<boolean>(false)
   const [isFormErr, setIsFormErr] = useState(true)
 
   /* 
@@ -15,15 +16,11 @@ export const useValidation = () => {
   @param min, max 最小値、最大値
   @returns バリデーションチェックの結果 true/false
   */
-  const checkVal = (
-    inputVal: string | number,
-    regex: RegExp,
-    max: number = 40
-  ) => {
-    if (typeof inputVal === 'string') {
-      console.log(regex.test(inputVal))
-      return !(max < inputVal.length) && regex.test(inputVal)
+  const checkVal = (inputVal: string, regex: RegExp, max: number = 40) => {
+    if (max < inputVal.length) {
+      return false
     }
+    return regex.test(inputVal)
   }
 
   return {
@@ -36,7 +33,9 @@ export const useValidation = () => {
     setAdrErr,
     isFormErr,
     setIsFormErr,
-    paymentErr,
-    setPaymentErr,
+    paymentFromErr,
+    setPaymentFromErr,
+    paymentToErr,
+    setPaymentToErr,
   }
 }
