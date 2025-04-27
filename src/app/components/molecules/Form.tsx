@@ -30,7 +30,6 @@ export const validateForm = (
     const paymentToValid = checkVal(inputPaymentTo, regexPayment, 9);
   
     if (type === "list") {
-        console.log({nameValid,phoneValid, adrValid, paymentFromValid,paymentToValid})
         if(inputName === "" && inputPhoneNum === "" && inputAdr === "") {
             setIsFormErr(true);
         } else if(nameValid && phoneValid && adrValid) {

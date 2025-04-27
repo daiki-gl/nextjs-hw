@@ -49,7 +49,12 @@ export const handleSubmit = (
     setShowUserData(filteredData)
 
     // テスト用ローカルJSONデータ全て表示
-    setShowUserData(userData)
+    // テスト用でuserDataを全て追加するとcheckが更新されないため意図的に新しいデータとして追加
+    const newUserData = userData.map((user) => ({
+      ...user,
+      id: Math.floor(Math.random() * 1000000), // ランダムな数値IDを生成
+    }))
+    setShowUserData(newUserData)
 
     return
   }

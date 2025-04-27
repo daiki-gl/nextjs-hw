@@ -56,8 +56,6 @@ export default function useSelected(showUserData: UserData[] | null) {
   function handleSelectAllReset() {
     setSelectedAll(false)
     setSelected(showUserData ? showUserData.map(() => false) : [])
-
-    console.log({ selected }, { selectedAll })
   }
 
   /*
