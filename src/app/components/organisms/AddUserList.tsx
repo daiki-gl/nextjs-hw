@@ -3,6 +3,7 @@ import { useShowDataContext } from "@/app/context/ShowDataContext";
 import { useTypeContext } from "@/app/context/TypeContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Button from "../atoms/Button";
 
 export default function AddUserList(){
     const {showAddUserData} = useShowDataContext();
@@ -56,7 +57,10 @@ export default function AddUserList(){
                         }
                     </tbody>
             </table>
-            <button onClick={() => router.back()} className="bg-blue-500 text-white px-4 py-2 mt-4 rounded hover:bg-blue-600">戻る</button>
+            <div className="text-center">
+            <button onClick={() => router.back()} className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md mx-10 hover:bg-blue-600">戻る</button>
+            <Button text="送信" />
+            </div>
         </div>
     )
 }
