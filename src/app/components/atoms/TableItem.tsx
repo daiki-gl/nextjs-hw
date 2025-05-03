@@ -1,7 +1,8 @@
 import { UserData } from "@/app/common/types";
+import { handleSetAddUserData } from "@/app/common/utils/addUserAction";
 import { SetStateAction } from "react";
 
-export default function TableItem({selected, setSelected, isCheckBox = false, i,isLink = false, children, openModal, fetchUserData, setUserDetails, id = -1}:
+export default function TableItem({selected, setSelected, isCheckBox = false, i,isLink = false, children, openModal, fetchUserData, setUserDetails, id = -1,showUserData,showAddUser}:
     {
         selected: boolean[],
         setSelected: React.Dispatch<SetStateAction<boolean[]>>
@@ -13,6 +14,11 @@ export default function TableItem({selected, setSelected, isCheckBox = false, i,
         fetchUserData?: (id: number, setUserDetails: React.Dispatch<SetStateAction<UserData | undefined>>) => void,
         setUserDetails?: React.Dispatch<SetStateAction<UserData | undefined>>,
         id?: number,
+        showUserData?: UserData[],
+        showAddUser?: {
+            showAddUserData: UserData[],
+            setShowAddUserData: React.Dispatch<SetStateAction<UserData[]>>
+        }
     }
 ) {
     return (
@@ -50,6 +56,9 @@ export default function TableItem({selected, setSelected, isCheckBox = false, i,
                                 const newSelected = [...selected];
                                 newSelected[i] = e.target.checked;
                                 setSelected(newSelected);
+                                if(showUserData && showAddUser){
+                                    handleSetAddUserData(showUserData[i], e.target.checked,showAddUser.setShowAddUserData);
+                                }
                             }} />
                     )
             }

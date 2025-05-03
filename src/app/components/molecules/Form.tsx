@@ -6,7 +6,7 @@ import Input from "../atoms/Input";
 import { handleSubmit } from "@/app/common/utils/formAction";
 import { regexAdr, regexName, regexPayment, regexPhoneNum } from "@/app/common/utils/regex";
 import { useValidation } from "@/app/common/hooks/useValidation";
-import useSelected from "@/app/common/hooks/useSelected";
+import { useSearchResultContext } from "@/app/context/SearchResultContext";
 
 
     /*
@@ -67,17 +67,12 @@ export default function Form({userData, setShowUserData, onOpen, type}: {
     const [inputPaymentTo, setInputPaymentTo] = useState("");
 
     const {checkVal,isFormErr,setIsFormErr, nameErr,setNameErr,phoneNumErr,setPhoneNumErr,adrErr,setAdrErr,paymentToErr,paymentFromErr,setPaymentToErr,setPaymentFromErr} = useValidation();
-    const {handleSelectAllReset} = useSelected(userData)
+    const {setSearchResult} = useSearchResultContext();
 
     return (
         <div className="mx-auto w-3/5">
             <form 
-            onSubmit={(event)=> {
-                handleSubmit(event,userData,setShowUserData);
-                if(userData) {
-                    handleSelectAllReset();
-                }
-            }} 
+            onSubmit={(event)=> handleSubmit(event,userData,setShowUserData,setSearchResult)} 
             className="flex justify-between flex-wrap" action='/search' method="get">
                 <Input 
                     inputData={{name:'name',type:'text',placeholder:'名前入力欄'}}

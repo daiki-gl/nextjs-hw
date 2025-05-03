@@ -1,11 +1,16 @@
-import { useSelectType } from "@/app/common/types";
+'use client'
+import { UserData, useSelectType } from "@/app/common/types";
+import { handleSetAddUserDataAll } from "@/app/common/utils/addUserAction";
+import { useShowDataContext } from "@/app/context/ShowDataContext";
 
-export default function TableHeaderItem({text, isCheckBox = false, select
+export default function TableHeaderItem({text, isCheckBox = false, select, showUserData
     }: {
         text: string,
         isCheckBox?: boolean,
-        select?: useSelectType
+        select?: useSelectType,
+        showUserData?: UserData[] | null
     }) {
+        const {setShowAddUserData} = useShowDataContext();
     return (
         <th className="text-left py-2 px-4">
             {
@@ -18,7 +23,10 @@ export default function TableHeaderItem({text, isCheckBox = false, select
                             select?.setSelectedAll(e.target.checked)
                             select?.setSelected(
                                 select?.selected.map(() => {
-                                  return e.target.checked;
+                                    if(showUserData && showUserData.length >0 ) {
+                                        handleSetAddUserDataAll(e.target.checked, setShowAddUserData, showUserData)
+                                    }
+                                    return e.target.checked;
                                 })
                               )
                         }}
