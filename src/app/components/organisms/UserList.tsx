@@ -1,11 +1,14 @@
 'use client';
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { UserData } from "../../common/types";
 import useSelected from "@/app/common/hooks/useSelected";
 import TableHeader from "../molecules/TableHeader";
 import TableBody from "../molecules/TableBody";
 import Button from "../atoms/Button";
 import useModal from "@/app/common/hooks/useModal";
+import { useRouter } from "next/navigation";
+import { useShowDataContext } from "@/app/context/ShowDataContext";
+import { useSearchResultContext } from "@/app/context/SearchResultContext";
 
 
 export default function UserList({showUserData, setShowUserData}
@@ -18,9 +21,18 @@ export default function UserList({showUserData, setShowUserData}
      useModal モーダルの開閉の操作をするカスタムhook
      userDetails/setUserDetails ユーザーの詳細情報を保持、setする関数
     */
-   const {selected,selectedAll,setSelected,setSelectedAll, fetchUserData} = useSelected(showUserData);
+   const {showAddUserData} = useShowDataContext();
+   const {selected,selectedAll,setSelected,setSelectedAll, fetchUserData} = useSelected(showUserData, showAddUserData);
    const {openModal, closeModal, isOpen} = useModal();
    const [userDetails, setUserDetails] = useState<UserData>();
+   const router = useRouter();
+   const {searchResult} = useSearchResultContext();
+
+   useEffect(() => {
+    if(searchResult && showUserData?.length === 0) {
+        setShowUserData(searchResult);
+    }
+   },[])
         
     return (
         <div className="w-3/5 mx-auto my-10">
@@ -28,7 +40,7 @@ export default function UserList({showUserData, setShowUserData}
 
             {/* ユーザーの一覧表示用のテーブル */}
             <table className="w-full mt-5">
-                <TableHeader select={{selectedAll,setSelectedAll,selected,setSelected}} />
+                <TableHeader select={{selectedAll,setSelectedAll,selected,setSelected}} showUserData={showUserData}  />
                 <TableBody showUserData={showUserData} selected={selected} setSelected={setSelected} modalData={{openModal,closeModal}} fetchUserData={fetchUserData} setUserDetails={setUserDetails} />
             </table>
 
@@ -55,8 +67,14 @@ export default function UserList({showUserData, setShowUserData}
             <div className="w-full text-center my-7">
                 {/* 表示されているユーザーを消す */}
                     <Button text="閉じる" onClick={() => setShowUserData([])} />
-                {/* ユーザーの追加ボタン(まだ未実装) */}
-                    <Button disabled={showUserData == null || showUserData.length == 0} text="追加" />
+                {/* ユーザーの追加ボタン */}
+                    <button 
+                        disabled={!showUserData || selected.length > 0 && selected.every((select) => select === false)} 
+                        className={`cursor-pointer bg-blue-500 rounded-md px-4 py-2 mr-6 mt-4 text-white  ${!showUserData || selected.length > 0 && selected.every((select) => select === false) 
+      ? 'bg-gray-400 cursor-not-allowed opacity-50' 
+      : 'bg-blue-500 cursor-pointer text-white'}`}
+                        onClick={() => router.push('/add')}
+                    >追加</button>
                 </div>
         </div>
     )

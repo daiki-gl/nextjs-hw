@@ -5,6 +5,7 @@ import useUserList from "@/app/common/hooks/useUserList";
 import { UserData } from "@/app/common/types";
 import Modal from "../molecules/Modal";
 import useModal from "@/app/common/hooks/useModal";
+import { useTypeContext } from "@/app/context/TypeContext";
 
 export default function SearchPanel({showUserData, setShowUserData}
     : {
@@ -21,7 +22,7 @@ export default function SearchPanel({showUserData, setShowUserData}
     const [isLoading, setIsLoading] = useState(true);
 
     // セッションから検索タイプを取得（"list" または "detail"）して状態に保存
-        const [type, setType] = useState<string | null>(null);
+    const {type, setType} = useTypeContext();
         useEffect(() => {
             const storedType = sessionStorage.getItem("searchType");
             setType(storedType);
@@ -29,13 +30,10 @@ export default function SearchPanel({showUserData, setShowUserData}
             if(type !== undefined || type !== null){
                 setIsLoading(false)
             }
+            (async () => {
+            await getUsersFunction();
+            })()
         }, []);
-
-    useEffect(() => {
-        (async () => {
-        await getUsersFunction();
-        })()
-    },[]);
 
     return (
         <>

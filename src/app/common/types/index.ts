@@ -27,3 +27,18 @@ export interface useSelectType {
   setSelected: (value: boolean[]) => void
   selected: boolean[]
 }
+
+export interface ShowDataContextType {
+  showAddUserData: UserData[]
+  setShowAddUserData: React.Dispatch<React.SetStateAction<UserData[]>>
+}
+
+export interface TypeContextType {
+  type: string | null
+  setType: React.Dispatch<React.SetStateAction<string | null>>
+}
+
+export interface SearchResultContextType {
+  searchResult: UserData[] | null
+  setSearchResult: React.Dispatch<React.SetStateAction<UserData[]>>
+}

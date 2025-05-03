@@ -1,4 +1,4 @@
-import { SetStateAction } from 'react'
+import React, { SetStateAction } from 'react'
 import { UserData } from '../types'
 
 /*
@@ -10,7 +10,8 @@ import { UserData } from '../types'
 export const handleSubmit = (
   event: React.FormEvent<HTMLFormElement>,
   userData: UserData[] | null,
-  setShowUserData: (value: React.SetStateAction<UserData[]>) => void
+  setShowUserData: (value: React.SetStateAction<UserData[]>) => void,
+  setSearchResult: React.Dispatch<React.SetStateAction<UserData[]>>
 ) => {
   /*
   フォーム送信時のユーザー検索処理
@@ -47,6 +48,7 @@ export const handleSubmit = (
         .every((f) => f.match) // すべての条件が一致するか確認
     })
     setShowUserData(filteredData)
+    setSearchResult(filteredData)
 
     // テスト用ローカルJSONデータ全て表示
     // テスト用でuserDataを全て追加するとcheckが更新されないため意図的に新しいデータとして追加
@@ -55,6 +57,7 @@ export const handleSubmit = (
       id: Math.floor(Math.random() * 1000000), // ランダムな数値IDを生成
     }))
     setShowUserData(newUserData)
+    setSearchResult(newUserData)
 
     return
   }
@@ -90,16 +93,6 @@ export const handleErrCheck = (
   setInputErr: React.Dispatch<SetStateAction<boolean>>,
   setIsFormErr: React.Dispatch<SetStateAction<boolean>>
 ) => {
-  // if (inputData.match(regex)) {
-  //   setInputErr(false)
-  // } else if (inputData === '') {
-  //   setInputErr(false)
-  //   setIsFormErr(true)
-  // } else {
-  //   setInputErr(true)
-  //   setIsFormErr(true)
-  // }
-
   const isValid = regex.test(inputData)
   setInputErr(!isValid) // 項目個別のエラー更新
 

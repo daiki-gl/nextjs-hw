@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from 'react'
+import React, { SetStateAction, useEffect, useState } from 'react'
 import { UserData } from '../types'
 
 /*
@@ -11,7 +11,10 @@ import { UserData } from '../types'
   @returns setSelected selectedの更新用
   @returns setSelectedAll selectedAllの更新用
   */
-export default function useSelected(showUserData: UserData[] | null) {
+export default function useSelected(
+  showUserData: UserData[] | null,
+  showAddUserData: UserData[]
+) {
   const [selected, setSelected] = useState<boolean[]>([])
   const [selectedAll, setSelectedAll] = useState<boolean | 'indeterminate'>(
     false
@@ -22,12 +25,15 @@ export default function useSelected(showUserData: UserData[] | null) {
   */
   useEffect(() => {
     if (showUserData && showUserData.length > 0) {
-      const newSelected = showUserData.map(() => false) //shoUserDataにfalseを割り当てている
+      // ✅ showAddUserData に含まれているかどうかでチェック状態を初期化
+      const newSelected = showUserData.map((user) =>
+        showAddUserData.some((addedUser) => addedUser.id === user.id)
+      )
       setSelected(newSelected)
     } else {
       setSelected([])
     }
-  }, [showUserData])
+  }, [showUserData, showAddUserData])
 
   /*
   selectedAllをtrue/falseに更新
@@ -53,11 +59,6 @@ export default function useSelected(showUserData: UserData[] | null) {
     }
   }, [selected, showUserData])
 
-  function handleSelectAllReset() {
-    setSelectedAll(false)
-    setSelected(showUserData ? showUserData.map(() => false) : [])
-  }
-
   /*
   ユーザーをidから検索
   @param id ユーザーID
@@ -71,6 +72,23 @@ export default function useSelected(showUserData: UserData[] | null) {
     setUserDetails(user)
   }
 
+  /*
+  selectedを指定し、addページに遷移した時にselectedを保持したユーザーを取得
+  @param id ユーザーID
+  */
+  function handleAddUser(
+    id: number,
+    setAddUserData: React.Dispatch<SetStateAction<UserData[] | null>>
+  ) {
+    const user = showUserData?.find((user) => user.id === id)
+    setAddUserData((prev) => {
+      if (prev && user) {
+        return [...prev, user]
+      }
+      return prev
+    })
+  }
+
   return {
     selected,
     setSelected,
@@ -78,6 +96,6 @@ export default function useSelected(showUserData: UserData[] | null) {
     setSelectedAll,
     fetchUserData,
     handleSelectAll,
-    handleSelectAllReset,
+    handleAddUser,
   }
 }
