@@ -47,8 +47,12 @@ export const handleSubmit = (
         .filter((f) => f.value) // 入力された値だけを対象にする
         .every((f) => f.match) // すべての条件が一致するか確認
     })
-    setShowUserData(filteredData)
     setSearchResult(filteredData)
+
+    // 1ページ目に表示するデータをセット
+    const startIndex = 0 // 1ページ目の開始インデックス
+    const endIndex = startIndex + 5 // 1ページ目の終了インデックス
+    setShowUserData(filteredData.slice(startIndex, endIndex))
 
     // テスト用ローカルJSONデータ全て表示
     // テスト用でuserDataを全て追加するとcheckが更新されないため意図的に新しいデータとして追加
@@ -56,7 +60,7 @@ export const handleSubmit = (
       ...user,
       id: Math.floor(Math.random() * 1000000), // ランダムな数値IDを生成
     }))
-    setShowUserData(newUserData)
+    // setShowUserData(newUserData)
     setSearchResult(newUserData)
 
     return

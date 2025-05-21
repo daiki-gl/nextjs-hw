@@ -7,6 +7,7 @@ import { handleSubmit } from "@/app/common/utils/formAction";
 import { regexAdr, regexName, regexPayment, regexPhoneNum } from "@/app/common/utils/regex";
 import { useValidation } from "@/app/common/hooks/useValidation";
 import { useSearchResultContext } from "@/app/context/SearchResultContext";
+import { useIsFormErrContext } from "@/app/context/IsFormErrContext";
 
 
     /*
@@ -66,8 +67,9 @@ export default function Form({userData, setShowUserData, onOpen, type}: {
     const [inputPaymentFrom, setInputPaymentFrom] = useState("");
     const [inputPaymentTo, setInputPaymentTo] = useState("");
 
-    const {checkVal,isFormErr,setIsFormErr, nameErr,setNameErr,phoneNumErr,setPhoneNumErr,adrErr,setAdrErr,paymentToErr,paymentFromErr,setPaymentToErr,setPaymentFromErr} = useValidation();
+    const {checkVal, nameErr,setNameErr,phoneNumErr,setPhoneNumErr,adrErr,setAdrErr,paymentToErr,paymentFromErr,setPaymentToErr,setPaymentFromErr} = useValidation();
     const {setSearchResult} = useSearchResultContext();
+    const {isFormErr,setIsFormErr} = useIsFormErrContext();
 
     return (
         <div className="mx-auto w-3/5">
