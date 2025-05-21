@@ -9,6 +9,8 @@ import useModal from "@/app/common/hooks/useModal";
 import { useRouter } from "next/navigation";
 import { useShowDataContext } from "@/app/context/ShowDataContext";
 import { useSearchResultContext } from "@/app/context/SearchResultContext";
+import { useIsFormErrContext } from "@/app/context/IsFormErrContext";
+import Pagenation from "../molecules/Pagenation";
 
 
 export default function UserList({showUserData, setShowUserData}
@@ -27,16 +29,22 @@ export default function UserList({showUserData, setShowUserData}
    const [userDetails, setUserDetails] = useState<UserData>();
    const router = useRouter();
    const {searchResult} = useSearchResultContext();
+   const {isFormErr} = useIsFormErrContext();
+
+   const isDisabled = !(selected.length > 0) || !selected.some(select => select === true) || isFormErr;
+
+   const startIndex = 0 // 1ページ目の開始インデックス
+   const endIndex = startIndex + 5 // 1ページ目の終了インデックス
 
    useEffect(() => {
     if(searchResult && showUserData?.length === 0) {
-        setShowUserData(searchResult);
+        setShowUserData(searchResult.slice(startIndex, endIndex))
     }
-   },[])
+   },[isFormErr])
         
     return (
         <div className="w-3/5 mx-auto my-10">
-            <h1 className="text-2xl font-bold">検索結果 *{showUserData && showUserData.length}件</h1>
+            <h1 className="text-2xl font-bold">検索結果 *{searchResult && searchResult.length}件</h1>
 
             {/* ユーザーの一覧表示用のテーブル */}
             <table className="w-full mt-5">
@@ -65,14 +73,20 @@ export default function UserList({showUserData, setShowUserData}
             )}
             
             <div className="w-full text-center my-7">
+
+            {/* ページネーション */}
+            {searchResult && searchResult.length > 0 && (
+                <Pagenation limit={10} showUserData={searchResult} setShowUserData={setShowUserData} />
+            )}
+
                 {/* 表示されているユーザーを消す */}
                     <Button text="閉じる" onClick={() => setShowUserData([])} />
                 {/* ユーザーの追加ボタン */}
                     <button 
-                        disabled={!showUserData || selected.length > 0 && selected.every((select) => select === false)} 
-                        className={`cursor-pointer bg-blue-500 rounded-md px-4 py-2 mr-6 mt-4 text-white  ${!showUserData || selected.length > 0 && selected.every((select) => select === false) 
-      ? 'bg-gray-400 cursor-not-allowed opacity-50' 
-      : 'bg-blue-500 cursor-pointer text-white'}`}
+                        disabled={isDisabled} 
+                        className={`cursor-pointer bg-blue-500 rounded-md px-4 py-2 mr-6 mt-4 text-white  
+                            ${isDisabled
+                            ? 'bg-gray-400 !cursor-not-allowed opacity-50' : 'bg-blue-500 text-white'}`}
                         onClick={() => router.push('/add')}
                     >追加</button>
                 </div>

@@ -42,3 +42,7 @@ export interface SearchResultContextType {
   searchResult: UserData[] | null
   setSearchResult: React.Dispatch<React.SetStateAction<UserData[]>>
 }
+export interface IsFormErrContextType {
+  isFormErr: boolean
+  setIsFormErr: React.Dispatch<React.SetStateAction<boolean>>
+}
