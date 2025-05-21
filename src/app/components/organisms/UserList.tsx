@@ -76,7 +76,7 @@ export default function UserList({showUserData, setShowUserData}
 
             {/* ページネーション */}
             {searchResult && searchResult.length > 0 && (
-                <Pagenation limit={5} showUserData={searchResult} setShowUserData={setShowUserData} />
+                <Pagenation limit={10} showUserData={searchResult} setShowUserData={setShowUserData} />
             )}
 
                 {/* 表示されているユーザーを消す */}

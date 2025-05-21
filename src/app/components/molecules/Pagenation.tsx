@@ -41,7 +41,7 @@ return (
         <button
           onClick={() => goToPage(startPage)}
           disabled={currentPage === 1}
-          className={`${currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"} mr-2  py-0.5 px-2 hover:bg-indigo-300 rounded-sm`}
+        className={`${currentPage === 1 ? "cursor-not-allowed bg-gray-300" : "cursor-pointer"} mr-2  py-0.5 px-2 hover:bg-indigo-300 rounded-sm`}
         >
           ＜
         </button>
@@ -57,7 +57,7 @@ return (
         <button
           onClick={() => goToPage(endPage)}
           disabled={currentPage === totalPages}
-          className={`${currentPage === totalPages ? "cursor-not-allowed" : "cursor-pointer"} ml-2  py-0.5 px-2 hover:bg-indigo-300  rounded-sm`}
+          className={`${currentPage === totalPages ? "cursor-not-allowed  bg-gray-300" : "cursor-pointer"} ml-2  py-0.5 px-2 hover:bg-indigo-300  rounded-sm`}
         >
           ＞
         </button>
