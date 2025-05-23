@@ -34,7 +34,7 @@ export default function UserList({showUserData, setShowUserData}
    const isDisabled = !(selected.length > 0) || !selected.some(select => select === true) || isFormErr;
 
    const startIndex = 0 // 1ページ目の開始インデックス
-   const endIndex = startIndex + 5 // 1ページ目の終了インデックス
+   const endIndex = startIndex + 10 // 1ページ目の終了インデックス
 
    useEffect(() => {
     if(searchResult && showUserData?.length === 0) {

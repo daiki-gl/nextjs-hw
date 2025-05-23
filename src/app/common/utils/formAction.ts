@@ -51,7 +51,7 @@ export const handleSubmit = (
 
     // 1ページ目に表示するデータをセット
     const startIndex = 0 // 1ページ目の開始インデックス
-    const endIndex = startIndex + 5 // 1ページ目の終了インデックス
+    const endIndex = startIndex + 10 // 1ページ目の終了インデックス
     setShowUserData(filteredData.slice(startIndex, endIndex))
 
     // テスト用ローカルJSONデータ全て表示
