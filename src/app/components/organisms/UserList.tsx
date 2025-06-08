@@ -1,5 +1,5 @@
 'use client';
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useMemo, useState } from "react";
 import { UserData } from "../../common/types";
 import useSelected from "@/app/common/hooks/useSelected";
 import TableHeader from "../molecules/TableHeader";
@@ -23,34 +23,73 @@ export default function UserList({showUserData, setShowUserData}
      useModal モーダルの開閉の操作をするカスタムhook
      userDetails/setUserDetails ユーザーの詳細情報を保持、setする関数
     */
-   const {showAddUserData} = useShowDataContext();
-   const {selected,selectedAll,setSelected,setSelectedAll, fetchUserData} = useSelected(showUserData, showAddUserData);
+   const {setShowAddUserData} = useShowDataContext();
+   const {searchResult} = useSearchResultContext();
+   const {selected, toggleUserSelection, toggleSelectAllCurrentPage} = useSelected(searchResult);
+
    const {openModal, closeModal, isOpen} = useModal();
    const [userDetails, setUserDetails] = useState<UserData>();
    const router = useRouter();
-   const {searchResult} = useSearchResultContext();
    const {isFormErr} = useIsFormErrContext();
 
-   const isDisabled = !(selected.length > 0) || !selected.some(select => select === true) || isFormErr;
+   // 現在のページの「全選択」の状態を UserList で計算
+   const selectedAllCurrentPage = useMemo(() => {
+    if(!showUserData || showUserData.length === 0) {
+        return false
+    }
+    return  showUserData.every(user => selected[user.id]);
+   },[showUserData,selected])
+
+   // selected オブジェクト全体を見て、true が一つでもあれば有効
+   const hasAnyItemSelected = Object.values(selected).some(isChecked => isChecked === true);
+   const isDisabled = !hasAnyItemSelected || isFormErr;
 
    const startIndex = 0 // 1ページ目の開始インデックス
    const endIndex = startIndex + 10 // 1ページ目の終了インデックス
 
    useEffect(() => {
-    if(searchResult && showUserData?.length === 0) {
-        setShowUserData(searchResult.slice(startIndex, endIndex))
+    if(searchResult && searchResult.length > 0 && showUserData?.length === 0) {
+        setShowUserData(searchResult.slice(startIndex, endIndex));
+    } else if(searchResult && searchResult.length === 0) {
+        setShowUserData([]);
     }
-   },[isFormErr])
+   },[searchResult,startIndex,endIndex])
+
+
+    // handleAddUser (選択されたユーザーを add ページに持っていくための関数)
+    const handleAddUserToPage = () => {
+        const selectedUsers = searchResult?.filter(user => selected[user.id]) || [];
+        setShowAddUserData(selectedUsers)
+        router.push('/add');
+    }
+
+    const fetchUserData = (id: number): UserData | undefined => {
+        return searchResult?.find((user) => user.id === id);
+    }
         
     return (
         <div className="w-3/5 mx-auto my-10">
             <h1 className="text-2xl font-bold">検索結果 *{searchResult && searchResult.length}件</h1>
 
-            {/* ユーザーの一覧表示用のテーブル */}
-            <table className="w-full mt-5">
-                <TableHeader select={{selectedAll,setSelectedAll,selected,setSelected}} showUserData={showUserData}  />
-                <TableBody showUserData={showUserData} selected={selected} setSelected={setSelected} modalData={{openModal,closeModal}} fetchUserData={fetchUserData} setUserDetails={setUserDetails} />
-            </table>
+             <table className="w-full mt-5">
+            <TableHeader
+                select={{
+                    selectedAll: selectedAllCurrentPage, 
+                    setSelectedAll: (checked: boolean) => toggleSelectAllCurrentPage(checked, showUserData), 
+                    selected: selected, 
+                }}
+                showUserData={showUserData}
+            />
+            <TableBody
+                showUserData={showUserData}
+                selected={selected} 
+                setSelected={toggleUserSelection} 
+                modalData={{openModal,closeModal}}
+                setUserDetails={setUserDetails}
+                fetchUserData={fetchUserData}
+            />
+        </table>
+
 
             {/* isOpenの時ユーザーの詳細情報の表示 */}
             {isOpen && userDetails && (
@@ -87,7 +126,7 @@ export default function UserList({showUserData, setShowUserData}
                         className={`cursor-pointer bg-blue-500 rounded-md px-4 py-2 mr-6 mt-4 text-white  
                             ${isDisabled
                             ? 'bg-gray-400 !cursor-not-allowed opacity-50' : 'bg-blue-500 text-white'}`}
-                        onClick={() => router.push('/add')}
+                        onClick={handleAddUserToPage}
                     >追加</button>
                 </div>
         </div>

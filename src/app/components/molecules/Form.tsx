@@ -1,5 +1,5 @@
 'use client'
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { UserData } from "../../common/types";
 import Button from "../atoms/Button";
 import Input from "../atoms/Input";
@@ -33,7 +33,7 @@ export default function Form({userData, setShowUserData, onOpen, type}: {
     const {isFormErr,setIsFormErr} = useIsFormErrContext();
 
 
-        /*
+    /*
      各入力値をバリデーションチェックし、
      検索タイプに応じてフォーム全体のエラー状態を更新
     */
@@ -65,15 +65,35 @@ const validateForm = (
     } else {
         if(inputName === "" && inputPhoneNum === "" && inputPaymentFrom === "" && inputPaymentTo === "") {
             setIsFormErr(true);
-        } else if (inputPaymentFrom > inputPaymentTo) {
+            setPaymentRangeError(false);
+            return 
+        } else if (inputPaymentFrom !== '' && inputPaymentTo !== '' && inputPaymentFrom.match(regexPayment) && inputPaymentTo.match(regexPayment) && inputPaymentFrom > inputPaymentTo) {
             setIsFormErr(true);
             setPaymentRangeError(true);
-       } else if(nameValid && phoneValid && paymentFromValid && paymentToValid) {
-           setIsFormErr(false);
+            return
+        } else if(nameValid && phoneValid && paymentFromValid && paymentToValid) {
+            setIsFormErr(false);
+            setPaymentRangeError(false);
+            return
        } else {
+           setPaymentRangeError(false);
             setIsFormErr(true);
+            return
         }
   }}
+
+  useEffect(() => {
+    const storedSearchValue = localStorage.getItem("searchValue");
+
+    if(storedSearchValue) {
+        const searchValue = JSON.parse(storedSearchValue);
+        setInputName(searchValue.name || "");
+        setInputPhoneNum(searchValue.phone || "");
+        setInputAdr(searchValue.address || "");
+        setInputPaymentFrom(searchValue.paymentFrom || "");
+        setInputPaymentTo(searchValue.paymentTo || "");
+    }
+  },[])
 
     return (
         <div className="mx-auto w-3/5">
