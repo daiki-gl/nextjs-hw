@@ -1,5 +1,5 @@
 'use client'
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { UserData } from "../../common/types";
 import Button from "../atoms/Button";
 import Input from "../atoms/Input";
@@ -10,11 +10,34 @@ import { useSearchResultContext } from "@/app/context/SearchResultContext";
 import { useIsFormErrContext } from "@/app/context/IsFormErrContext";
 
 
+export default function Form({userData, setShowUserData, onOpen, type}: {
+    userData: UserData[] | null, 
+    showUserData: UserData[] | null,
+    setShowUserData: React.Dispatch<SetStateAction<UserData[]>>,
+    onOpen: () => void,
+    type: string | null
+}) {
+    /*
+     フォーム全体のstateを管理する関数
+     useValidation バリデーションチェックで使用するカスタムhook
+    */
+    const [inputName,setInputName] = useState("");
+    const [inputPhoneNum,setInputPhoneNum] = useState("");
+    const [inputAdr,setInputAdr] = useState("");
+    const [inputPaymentFrom, setInputPaymentFrom] = useState("");
+    const [inputPaymentTo, setInputPaymentTo] = useState("");
+    const [paymentRangeError, setPaymentRangeError] = useState(false);
+
+    const {checkVal, nameErr,setNameErr,phoneNumErr,setPhoneNumErr,adrErr,setAdrErr,paymentToErr,paymentFromErr,setPaymentToErr,setPaymentFromErr} = useValidation();
+    const {setSearchResult} = useSearchResultContext();
+    const {isFormErr,setIsFormErr} = useIsFormErrContext();
+
+
     /*
      各入力値をバリデーションチェックし、
      検索タイプに応じてフォーム全体のエラー状態を更新
     */
-export const validateForm = (
+const validateForm = (
     inputName: string,
     inputPhoneNum: string,
     inputAdr: string,
@@ -42,34 +65,35 @@ export const validateForm = (
     } else {
         if(inputName === "" && inputPhoneNum === "" && inputPaymentFrom === "" && inputPaymentTo === "") {
             setIsFormErr(true);
-        } else if(nameValid && phoneValid && paymentFromValid && paymentToValid) {
-           setIsFormErr(false);
-       }
-         else {
+            setPaymentRangeError(false);
+            return 
+        } else if (inputPaymentFrom !== '' && inputPaymentTo !== '' && inputPaymentFrom.match(regexPayment) && inputPaymentTo.match(regexPayment) && inputPaymentFrom > inputPaymentTo) {
             setIsFormErr(true);
+            setPaymentRangeError(true);
+            return
+        } else if(nameValid && phoneValid && paymentFromValid && paymentToValid) {
+            setIsFormErr(false);
+            setPaymentRangeError(false);
+            return
+       } else {
+           setPaymentRangeError(false);
+            setIsFormErr(true);
+            return
         }
   }}
 
-export default function Form({userData, setShowUserData, onOpen, type}: {
-    userData: UserData[] | null, 
-    showUserData: UserData[] | null,
-    setShowUserData: React.Dispatch<SetStateAction<UserData[]>>,
-    onOpen: () => void,
-    type: string | null
-}) {
-    /*
-     フォーム全体のstateを管理する関数
-     useValidation バリデーションチェックで使用するカスタムhook
-    */
-    const [inputName,setInputName] = useState("");
-    const [inputPhoneNum,setInputPhoneNum] = useState("");
-    const [inputAdr,setInputAdr] = useState("");
-    const [inputPaymentFrom, setInputPaymentFrom] = useState("");
-    const [inputPaymentTo, setInputPaymentTo] = useState("");
+  useEffect(() => {
+    const storedSearchValue = localStorage.getItem("searchValue");
 
-    const {checkVal, nameErr,setNameErr,phoneNumErr,setPhoneNumErr,adrErr,setAdrErr,paymentToErr,paymentFromErr,setPaymentToErr,setPaymentFromErr} = useValidation();
-    const {setSearchResult} = useSearchResultContext();
-    const {isFormErr,setIsFormErr} = useIsFormErrContext();
+    if(storedSearchValue) {
+        const searchValue = JSON.parse(storedSearchValue);
+        setInputName(searchValue.name || "");
+        setInputPhoneNum(searchValue.phone || "");
+        setInputAdr(searchValue.address || "");
+        setInputPaymentFrom(searchValue.paymentFrom || "");
+        setInputPaymentTo(searchValue.paymentTo || "");
+    }
+  },[])
 
     return (
         <div className="mx-auto w-3/5">
@@ -109,7 +133,10 @@ export default function Form({userData, setShowUserData, onOpen, type}: {
                         inputData={{name:'payment-from', type:'text', placeholder: '金額入力欄'}}
                         inputValue={inputPaymentFrom}
                         setInput={setInputPaymentFrom}
-                        errs={{inputErr: paymentFromErr,setInputErr: setPaymentFromErr,setIsFormErr: setIsFormErr,errMsg:'0以上、999999999以下の半角数字で入力してください。'}}
+                        errs={{inputErr: paymentRangeError || paymentFromErr,setInputErr: setPaymentFromErr,setIsFormErr: setIsFormErr,errMsg: paymentRangeError
+            ? 'FromはToより小さい値を入力してください。'
+            : '0以上、999999999以下の半角数字で入力してください。'
+        }}                  
                         regex={regexPayment}
                         validation={() => validateForm(inputName, inputPhoneNum, inputAdr, inputPaymentFrom, inputPaymentTo, type, setIsFormErr, checkVal)}
                     >From</Input>

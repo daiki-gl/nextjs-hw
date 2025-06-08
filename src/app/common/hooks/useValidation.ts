@@ -7,7 +7,6 @@ export const useValidation = () => {
   const [adrErr, setAdrErr] = useState<boolean>(false)
   const [paymentFromErr, setPaymentFromErr] = useState<boolean>(false)
   const [paymentToErr, setPaymentToErr] = useState<boolean>(false)
-  // const [isFormErr, setIsFormErr] = useState(true)
 
   /* 
   バリデーションチェック用の関数
@@ -31,8 +30,6 @@ export const useValidation = () => {
     setPhoneNumErr,
     adrErr,
     setAdrErr,
-    // isFormErr,
-    // setIsFormErr,
     paymentFromErr,
     setPaymentFromErr,
     paymentToErr,

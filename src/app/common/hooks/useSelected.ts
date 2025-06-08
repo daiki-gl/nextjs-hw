@@ -1,101 +1,73 @@
-import React, { SetStateAction, useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { UserData } from '../types'
 
-/*
-  ユーザーをidから検索
-  @param setUserDetails ユーザーの詳細情報をsetする関数
-  
-  ユーザーのチェックボックス用
-  @returns selected ユーザー毎のチェックボックスのcheckedの確認
-  @returns selectedAll showUserDataのユーザー全体のcheckedの確認
-  @returns setSelected selectedの更新用
-  @returns setSelectedAll selectedAllの更新用
-  */
+interface UseSelectedReturn {
+  selected: { [userId: number]: boolean }
+  selectedAllForCurrentPage: boolean
+  toggleUserSelection: (userId: number, isChecked: boolean) => void
+  toggleSelectAllCurrentPage: (
+    checked: boolean,
+    currentPageUsers: UserData[] | null
+  ) => void
+  clearAllSelections: () => void
+}
+
 export default function useSelected(
-  showUserData: UserData[] | null,
-  showAddUserData: UserData[]
-) {
-  const [selected, setSelected] = useState<boolean[]>([])
-  const [selectedAll, setSelectedAll] = useState<boolean | 'indeterminate'>(
-    false
-  )
+  searchResult: UserData[] | null
+): UseSelectedReturn {
+  const [selected, setSelected] = useState<{ [userId: number]: boolean }>({})
 
-  /*
-  showUserDataの更新時にselectedのcheckの有無の確認と更新
-  */
+  // searchResult が変更されたら、選択状態を初期化または更新
   useEffect(() => {
-    if (showUserData && showUserData.length > 0) {
-      // ✅ showAddUserData に含まれているかどうかでチェック状態を初期化
-      const newSelected = showUserData.map((user) =>
-        showAddUserData.some((addedUser) => addedUser.id === user.id)
-      )
-      setSelected(newSelected)
+    if (searchResult) {
+      const initialSelected: { [userId: number]: boolean } = {}
+      searchResult.forEach((user) => {
+        // 既存の選択状態があれば引き継ぎ、なければ false に
+        initialSelected[user.id] = selected[user.id] || false
+      })
     } else {
-      setSelected([])
+      setSelected({})
     }
-  }, [showUserData, showAddUserData])
+  }, [searchResult])
 
-  /*
-  selectedAllをtrue/falseに更新
-  */
-  function handleSelectAll(
-    selected: boolean[],
-    showUserData: UserData[],
-    setSelectedAll: React.Dispatch<SetStateAction<boolean | 'indeterminate'>>
-  ) {
-    const selectedResult = selected.filter((select: boolean) => select == true) // trueのユーザーをfilter
-    if (
-      showUserData.length > 0 &&
-      selectedResult.length == showUserData?.length
-    ) {
-      setSelectedAll(true)
-    } else {
-      setSelectedAll(false)
-    }
-  }
-  useEffect(() => {
-    if (showUserData !== null) {
-      handleSelectAll(selected, showUserData, setSelectedAll)
-    }
-  }, [selected, showUserData])
-
-  /*
-  ユーザーをidから検索
-  @param id ユーザーID
-  @param setUserDetails ユーザーの詳細情報をsetする関数
-  */
-  function fetchUserData(
-    id: number,
-    setUserDetails: React.Dispatch<SetStateAction<UserData | undefined>>
-  ): void {
-    const user = showUserData?.find((user) => user.id === id)
-    setUserDetails(user)
+  // 個別のユーザーの選択状態をトグルする関数
+  const toggleUserSelection = (userId: number, isChecked: boolean) => {
+    setSelected((prevSelected) => ({
+      ...prevSelected,
+      [userId]: isChecked,
+    }))
   }
 
-  /*
-  selectedを指定し、addページに遷移した時にselectedを保持したユーザーを取得
-  @param id ユーザーID
-  */
-  function handleAddUser(
-    id: number,
-    setAddUserData: React.Dispatch<SetStateAction<UserData[] | null>>
-  ) {
-    const user = showUserData?.find((user) => user.id === id)
-    setAddUserData((prev) => {
-      if (prev && user) {
-        return [...prev, user]
-      }
-      return prev
+  // 現在のページ内の全ユーザーの選択状態を一括で切り替える関数
+  const toggleSelectAllCurrentPage = (
+    checked: boolean,
+    currentPageUsers: UserData[] | null
+  ) => {
+    if (!currentPageUsers) return
+
+    setSelected((prevSelected) => {
+      const newSelected = { ...prevSelected }
+      currentPageUsers.forEach((user) => {
+        newSelected[user.id] = checked
+      })
+      return newSelected
     })
   }
 
+  // すべての選択状態をクリアする関数
+  const clearAllSelections = () => {
+    setSelected({})
+  }
+
+  // 現在のページの「全選択」チェックボックスの状態を計算
+  // ここではダミー値を返し、UserList で計算した値を使用
+  const selectedAllForCurrentPage = false
+
   return {
     selected,
-    setSelected,
-    selectedAll,
-    setSelectedAll,
-    fetchUserData,
-    handleSelectAll,
-    handleAddUser,
+    selectedAllForCurrentPage,
+    toggleUserSelection,
+    toggleSelectAllCurrentPage,
+    clearAllSelections,
   }
 }

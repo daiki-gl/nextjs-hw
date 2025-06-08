@@ -4,6 +4,7 @@ import { useTypeContext } from "@/app/context/TypeContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Button from "../atoms/Button";
+import { UserData } from "@/app/common/types";
 
 export default function AddUserList(){
     const {showAddUserData} = useShowDataContext();
@@ -11,6 +12,7 @@ export default function AddUserList(){
     const router = useRouter();
 
     const {type, setType} = useTypeContext();
+    const [sortedData,setSortedData] = useState<UserData[] | null>(null);
     useEffect(() => {
         const storedType = sessionStorage.getItem("searchType");
         setType(storedType);
@@ -18,7 +20,12 @@ export default function AddUserList(){
         if(type !== undefined || type !== null){
             setIsLoading(false)
         }
+
     }, []);
+    
+    useEffect(() => {
+        setSortedData(showAddUserData?.sort((a,b) => a.id - b.id));
+    },[showAddUserData,sortedData]);
 
     return (
         <div className="w-3/5 mx-auto my-10">
@@ -39,7 +46,7 @@ export default function AddUserList(){
                     <tbody>
                             {/* チェックしたユーザー一覧をmapで表示 */}
                         {
-                            showAddUserData && showAddUserData.map((user, i) => {
+                            sortedData && sortedData.map((user, i) => {
                                 return (
                                     <tr key={i} className="border-b border-gray-300">
                                         <td className="py-2 px-4">{user.name}</td>
