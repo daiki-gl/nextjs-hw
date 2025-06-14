@@ -18,6 +18,7 @@ interface TableBodyProps {
 
 export default function TableBody({ showUserData, selected, setSelected, modalData, setUserDetails, fetchUserData }: TableBodyProps) {
     const {setShowAddUserData } = useShowDataContext();
+    const USERS_TO_ADD_KEY = 'usersToAdd'; 
 
     if (!showUserData || showUserData.length === 0) {
         return (
@@ -31,14 +32,17 @@ export default function TableBody({ showUserData, selected, setSelected, modalDa
 
     const handleCheckboxChange = (userId: number, isChecked: boolean, user: UserData) => {
         setSelected(userId, isChecked);
+
         setShowAddUserData(prev => {
-            if (isChecked) {
-                // チェックされたら追加 (重複チェック)
-                return prev ? (prev.some(u => u.id === user.id) ? prev : [...prev, user]) : [user];
-            } else {
-                // チェックが外れたら削除
-                return prev ? prev.filter(u => u.id !== user.id) : [];
+            const updatedUsers = isChecked
+                ? prev?.some(u => u.id === user.id) ? prev : (prev ? [...prev, user] : [user])
+                : prev?.filter(u => u.id !== user.id) || [];
+
+            // ローカルストレージに保存
+            if (typeof window !== 'undefined') {
+                localStorage.setItem(USERS_TO_ADD_KEY, JSON.stringify(updatedUsers));
             }
+            return updatedUsers;
         });
     };
 

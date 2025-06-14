@@ -12,25 +12,57 @@ interface UseSelectedReturn {
   clearAllSelections: () => void
 }
 
+// ローカルストレージのキーを定義
+const SELECTED_USERS_STORAGE_KEY = 'globalSelectedUsers'
+
 export default function useSelected(
   searchResult: UserData[] | null
 ): UseSelectedReturn {
-  const [selected, setSelected] = useState<{ [userId: number]: boolean }>({})
+  //ステートの初期値をローカルストレージから読み込む
+  const [selected, setSelected] = useState<{ [userId: number]: boolean }>(
+    () => {
+      if (typeof window !== 'undefined') {
+        // ブラウザ環境でのみ実行
+        const storedSelected = localStorage.getItem(SELECTED_USERS_STORAGE_KEY)
+        if (storedSelected) {
+          try {
+            return JSON.parse(storedSelected)
+          } catch (e) {
+            console.error(
+              'Failed to parse stored selected users from local storage:',
+              e
+            )
+            localStorage.removeItem(SELECTED_USERS_STORAGE_KEY) // パースエラーの場合は削除
+          }
+        }
+      }
+      return {}
+    }
+  )
 
-  // searchResult が変更されたら、選択状態を初期化または更新
+  //ステートが変更されたらローカルストレージに保存する
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(SELECTED_USERS_STORAGE_KEY, JSON.stringify(selected))
+    }
+  }, [selected])
+
   useEffect(() => {
     if (searchResult) {
-      const initialSelected: { [userId: number]: boolean } = {}
-      searchResult.forEach((user) => {
-        // 既存の選択状態があれば引き継ぎ、なければ false に
-        initialSelected[user.id] = selected[user.id] || false
+      setSelected((prevSelected) => {
+        const newSelected: { [userId: number]: boolean } = {}
+        // 現在の検索結果に含まれるユーザーについて、既存の選択状態を適用
+        searchResult.forEach((user) => {
+          newSelected[user.id] = prevSelected[user.id] || false
+        })
+
+        return newSelected
       })
     } else {
       setSelected({})
     }
   }, [searchResult])
 
-  // 個別のユーザーの選択状態をトグルする関数
   const toggleUserSelection = (userId: number, isChecked: boolean) => {
     setSelected((prevSelected) => ({
       ...prevSelected,
@@ -38,7 +70,6 @@ export default function useSelected(
     }))
   }
 
-  // 現在のページ内の全ユーザーの選択状態を一括で切り替える関数
   const toggleSelectAllCurrentPage = (
     checked: boolean,
     currentPageUsers: UserData[] | null
@@ -54,13 +85,14 @@ export default function useSelected(
     })
   }
 
-  // すべての選択状態をクリアする関数
   const clearAllSelections = () => {
     setSelected({})
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(SELECTED_USERS_STORAGE_KEY) // ストレージからも削除
+    }
   }
 
-  // 現在のページの「全選択」チェックボックスの状態を計算
-  // ここではダミー値を返し、UserList で計算した値を使用
+  // UserList で計算する selectedAllForCurrentPage はダミー値
   const selectedAllForCurrentPage = false
 
   return {

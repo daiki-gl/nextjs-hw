@@ -1,5 +1,6 @@
 import React, { SetStateAction } from 'react'
 import { UserData } from '../types'
+import { getUsers } from './serverActions'
 
 /*
  Formのsubmitに関わる関数が格納されている
@@ -7,7 +8,7 @@ import { UserData } from '../types'
  @param userData APIで取得したユーザー情報一覧
  @param setShowUserData 表示用のユーザーをsetする関数
 */
-export const handleSubmit = (
+export const handleSubmit = async (
   event: React.FormEvent<HTMLFormElement>,
   userData: UserData[] | null,
   setShowUserData: (value: React.SetStateAction<UserData[]>) => void,
@@ -18,9 +19,14 @@ export const handleSubmit = (
   入力された名前・電話番号・住所・支払い情報で userData をフィルタリングして setShowUserData に反映。
   */
   event.preventDefault()
+  const form = event.currentTarget
+
+  const users = await getUsers().then((data) => {
+    return data
+  })
 
   /* 各インプット要素を取得 */
-  const form = event.currentTarget
+  // const form = event.currentTarget
   const nameInput = form.elements.namedItem('name') as HTMLInputElement
   const phoneInput = form.elements.namedItem('phone') as HTMLInputElement
   const addressInput = form.elements.namedItem('address') as HTMLInputElement
@@ -75,10 +81,9 @@ export const handleSubmit = (
     // 1ページ目に表示するデータをセット
     const startIndex = 0 // 1ページ目の開始インデックス
     const endIndex = startIndex + 10 // 1ページ目の終了インデックスs
-    setShowUserData(userData.slice(startIndex, endIndex))
+    setShowUserData(users.slice(startIndex, endIndex))
     // setShowUserData(filteredData.slice(startIndex, endIndex))
-    setSearchResult(userData)
-
+    setSearchResult(users)
     return
   }
 }
@@ -96,9 +101,6 @@ export const handleInputChange = (
   if (typeof e.target.value === 'string') {
     ;(setInput as React.Dispatch<React.SetStateAction<string>>)(e.target.value)
   }
-  // if (typeof e.target.value === 'number') {
-  //   ;(setInput as React.Dispatch<React.SetStateAction<number>>)(e.target.value)
-  // }
 }
 
 /*

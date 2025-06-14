@@ -78,7 +78,6 @@ export default function UserList({showUserData, setShowUserData}
                     setSelectedAll: (checked: boolean) => toggleSelectAllCurrentPage(checked, showUserData), 
                     selected: selected, 
                 }}
-                showUserData={showUserData}
             />
             <TableBody
                 showUserData={showUserData}
