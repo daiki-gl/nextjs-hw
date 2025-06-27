@@ -31,19 +31,22 @@ export default function TableBody({ showUserData, selected, setSelected, modalDa
     }
 
     const handleCheckboxChange = (userId: number, isChecked: boolean, user: UserData) => {
-        setSelected(userId, isChecked);
-
-        setShowAddUserData(prev => {
-            const updatedUsers = isChecked
-                ? prev?.some(u => u.id === user.id) ? prev : (prev ? [...prev, user] : [user])
-                : prev?.filter(u => u.id !== user.id) || [];
-
-            // ローカルストレージに保存
-            if (typeof window !== 'undefined') {
-                localStorage.setItem(USERS_TO_ADD_KEY, JSON.stringify(updatedUsers));
-            }
-            return updatedUsers;
-        });
+        if(user.status === true) {
+                return; // ステータスが true のユーザーはチェックできない
+            }else {
+            setSelected(userId, isChecked);
+            setShowAddUserData(prev => {
+                const updatedUsers = isChecked
+                    ? prev?.some(u => u.id === user.id) ? prev : (prev ? [...prev, user] : [user])
+                    : prev?.filter(u => u.id !== user.id) || [];
+    
+                // ローカルストレージに保存
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem(USERS_TO_ADD_KEY, JSON.stringify(updatedUsers));
+                }
+                return updatedUsers;
+            });
+        }
     };
 
     const handleDetailClick = (user: UserData) => {
@@ -59,11 +62,15 @@ export default function TableBody({ showUserData, selected, setSelected, modalDa
             {showUserData.map((user: UserData) => (
                 <tr key={user.id} className="border-b border-gray-300">
                     <TableItem>
+                        {user.status === true ? 
+                        <span></span> :
                         <input
                             type="checkbox"
                             checked={selected[user.id] || false}
+                            // disabled={user.status === true}
                             onChange={(e) => handleCheckboxChange(user.id, e.target.checked, user)}
                         />
+                        }
                     </TableItem>
 
                     <TableItem className="hover:text-gray-400 underline underline-offset-2">

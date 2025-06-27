@@ -8,6 +8,9 @@ import { getUsers } from './serverActions'
  @param userData APIで取得したユーザー情報一覧
  @param setShowUserData 表示用のユーザーをsetする関数
 */
+const startIndex = 0 // 1ページ目の開始インデックス
+const endIndex = startIndex + 10 // 1ページ目の終了インデックスs
+
 export const handleSubmit = async (
   event: React.FormEvent<HTMLFormElement>,
   userData: UserData[] | null,
@@ -79,8 +82,6 @@ export const handleSubmit = async (
     )
 
     // 1ページ目に表示するデータをセット
-    const startIndex = 0 // 1ページ目の開始インデックス
-    const endIndex = startIndex + 10 // 1ページ目の終了インデックスs
     setShowUserData(users.slice(startIndex, endIndex))
     // setShowUserData(filteredData.slice(startIndex, endIndex))
     setSearchResult(users)
@@ -120,4 +121,32 @@ export const handleErrCheck = (
 
   // フォーム全体のエラーを更新（※ここでは簡易的に）
   setIsFormErr(!isValid)
+}
+
+export const handleSubmitted = (
+  setShowUserData: (value: React.SetStateAction<UserData[]>) => void,
+  setSearchResult: React.Dispatch<React.SetStateAction<UserData[]>>,
+  searchResult: UserData[]
+) => {
+  let usersToAdd: UserData[] = []
+  if (typeof window !== 'undefined') {
+    const storedUsersToAdd = localStorage.getItem('usersToAdd')
+    if (storedUsersToAdd) {
+      try {
+        usersToAdd = JSON.parse(storedUsersToAdd)
+      } catch (e) {
+        console.error("Failed to parse 'usersToAdd' from localStorage:", e)
+        localStorage.removeItem('usersToAdd') // パースエラーの場合は削除
+      }
+    }
+  }
+
+  // 除外するユーザーのIDをSetに格納
+  const usersToAddIds = new Set(usersToAdd.map((user) => user.id))
+  const filteredUsers = searchResult.filter(
+    (user) => !usersToAddIds.has(user.id)
+  )
+  // フォーム送信後の処理
+  setShowUserData(filteredUsers.slice(startIndex, endIndex))
+  setSearchResult(filteredUsers)
 }

@@ -5,11 +5,16 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Button from "../atoms/Button";
 import { UserData } from "@/app/common/types";
+import { handleSubmitted } from "@/app/common/utils/formAction";
+import { useSearchResultContext } from "@/app/context/SearchResultContext";
+import useShowData from "@/app/common/hooks/useShowData";
 
 export default function AddUserList(){
     const {showAddUserData} = useShowDataContext();
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
+    const {setSearchResult,searchResult} = useSearchResultContext();
+    const {setShowUserData} = useShowData();
 
     const {type, setType} = useTypeContext();
     const [sortedData,setSortedData] = useState<UserData[] | null>(null);
@@ -66,7 +71,10 @@ export default function AddUserList(){
             </table>
             <div className="text-center">
             <button onClick={() => router.back()} className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md mx-10 hover:bg-blue-600">戻る</button>
-            <Button text="送信" />
+            <Button onClick={() => {
+                router.push('/search')
+                handleSubmitted(setShowUserData, setSearchResult,searchResult!)
+            }} text="送信" />
             </div>
         </div>
     )
