@@ -37,8 +37,15 @@ export default function UserList({showUserData, setShowUserData}
     if(!showUserData || showUserData.length === 0) {
         return false
     }
-    return  showUserData.every(user => selected[user.id]);
+    const validUsersForCheck = showUserData.filter(user => user.status === false);
+    if(validUsersForCheck.length === 0) {
+        return false;
+    }
+    return validUsersForCheck.every(user => selected[user.id]);
    },[showUserData,selected])
+
+   const validUsers = showUserData?.filter(user => user.status === false) || [];
+
 
    // selected オブジェクト全体を見て、true が一つでもあれば有効
    const hasAnyItemSelected = Object.values(selected).some(isChecked => isChecked === true);
@@ -54,6 +61,7 @@ export default function UserList({showUserData, setShowUserData}
         setShowUserData([]);
     }
    },[searchResult,startIndex,endIndex])
+
 
 
     // handleAddUser (選択されたユーザーを add ページに持っていくための関数)
@@ -75,7 +83,7 @@ export default function UserList({showUserData, setShowUserData}
             <TableHeader
                 select={{
                     selectedAll: selectedAllCurrentPage, 
-                    setSelectedAll: (checked: boolean) => toggleSelectAllCurrentPage(checked, showUserData), 
+                    setSelectedAll: (checked: boolean) => toggleSelectAllCurrentPage(checked, validUsers), 
                     selected: selected, 
                 }}
             />
