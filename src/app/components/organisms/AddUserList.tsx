@@ -34,18 +34,18 @@ export default function AddUserList(){
 
     return (
         <div className="w-3/5 mx-auto my-10">
-            <table className="w-full mt-5">
+            <table className="w-full mt-5 border-collapse border border-gray-300">
                     <thead>
                         <tr className="border-b-2 border-gray-300">
-                            <th className="text-left py-2 px-4">名前</th>
-                            <th className="text-left py-2 px-4">電話番号</th>
+                            <th className="text-center py-2 px-4 border border-gray-300">名前</th>
+                            <th className="text-center py-2 px-4">電話番号</th>
                             {isLoading ? <th >Loading...</th> :
                             type === "details" ? 
-                                <th className="text-left py-2 px-4">金額</th>
+                                <th className="text-center py-2 px-4  border border-gray-300">金額</th>
                             : 
-                                <th className="text-left py-2 px-4">郵便番号</th>
+                                <th className="text-center py-2 px-4  border border-gray-300">郵便番号</th>
                             }
-                            <th className="text-left py-2 px-4">ステータス</th>
+                            <th className="text-center py-2 px-4  border border-gray-300">ステータス</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,15 +54,14 @@ export default function AddUserList(){
                             sortedData && sortedData.map((user, i) => {
                                 return (
                                     <tr key={i} className="border-b border-gray-300">
-                                        <td className="py-2 px-4">{user.name}</td>
-                                        <td className="py-2 px-4">{user.phone}</td>
+                                        <td className="py-2 px-4 text-center  border border-gray-300">{user.name}</td>
+                                        <td className="py-2 px-4 text-center  border border-gray-300">{user.phone}</td>
                                         {isLoading ? <th >Loading...</th> :
                                             type === "details" ? 
-                                            <th className="text-left py-2 px-4">{user.payment}</th>
-                                        : 
-                                        <td className="py-2 px-4">{user.address}</td>
+                                            <td className="text-center py-2 px-4  border border-gray-300">{user.payment}</td>
+                                        : <td className="text-center py-2 px-4  border border-gray-300">{user.address}</td>
                                         }
-                                        <td className="py-2 px-4">{user.status ? "済" : "未"}</td>
+                                        <td className="py-2 px-4 text-center  border border-gray-300">{user.status ? "済" : "未"}</td>
                                     </tr>
                                 );
                             })

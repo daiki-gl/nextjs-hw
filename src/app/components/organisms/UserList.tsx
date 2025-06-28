@@ -79,7 +79,7 @@ export default function UserList({showUserData, setShowUserData}
         <div className="w-3/5 mx-auto my-10">
             <h1 className="text-2xl font-bold">検索結果 *{searchResult && searchResult.length}件</h1>
 
-             <table className="w-full mt-5">
+             <table className="w-full mt-5 border-collapse border border-gray-300">
             <TableHeader
                 select={{
                     selectedAll: selectedAllCurrentPage, 
@@ -103,7 +103,7 @@ export default function UserList({showUserData, setShowUserData}
                 <>
                 <div className="fixed w-screen h-screen top-0 left-0 bg-white opacity-70"></div>
                 <div className="fixed inset-0 flex items-center justify-center z-50">
-                    <div className="bg-white p-5 rounded shadow-xl">
+                    <div className="bg-gray-200 p-5 rounded shadow-xl">
                         <h2 className="text-xl font-bold mb-4 text-black border-b-2 min-w-xs">詳細情報</h2>
                         <ul className="text-black">
                             <li>名前：{userDetails.name}</li>
