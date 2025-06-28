@@ -75,7 +75,7 @@ export default function TableBody({ showUserData, selected, setSelected, modalDa
 
                     <TableItem className="hover:text-gray-400 underline underline-offset-2">
                         <button 
-                            className="py-2 px-4 cursor-pointer w-full text-left" 
+                            className="py-2 px-4 cursor-pointer w-full text-center" 
                             onClick={() => handleDetailClick(user)}
                         >
                             {user.name}

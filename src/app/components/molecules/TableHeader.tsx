@@ -14,7 +14,7 @@ export default function TableHeader({ select }: TableHeaderProps) {
     return (
         <thead>
             <tr className="border-b-2 border-gray-300">
-                <th className="py-3 px-4 text-left">
+                <th className="py-3 px-4 text-center">
                     <input
                         type="checkbox"
                         checked={select.selectedAll}
