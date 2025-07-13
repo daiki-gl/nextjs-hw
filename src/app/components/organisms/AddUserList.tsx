@@ -54,7 +54,7 @@ export default function AddUserList(){
                             sortedData && sortedData.map((user, i) => {
                                 return (
                                     <tr key={i} className="border-b border-gray-300">
-                                        <td className="py-2 px-4 text-center  border border-gray-300">{user.name}</td>
+                                        <td className="w-[180px] py-2 px-4 text-center  border border-gray-300">{user.name}</td>
                                         <td className="py-2 px-4 text-center  border border-gray-300">{user.phone}</td>
                                         {isLoading ? <th >Loading...</th> :
                                             type === "details" ? 

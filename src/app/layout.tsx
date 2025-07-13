@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+;import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./common/styles/globals.css";
 import ContextProviders from "./components/organisms/ContextProviders";
@@ -23,6 +23,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body

@@ -61,30 +61,29 @@ export default function TableBody({ showUserData, selected, setSelected, modalDa
         <tbody>
             {showUserData.map((user: UserData) => (
                 <tr key={user.id} className="border-b border-gray-300">
-                    <TableItem>
+                    <TableItem className="w-[70px]">
                         {user.status === true ? 
                         <span></span> :
                         <input
                             type="checkbox"
                             checked={selected[user.id] || false}
-                            // disabled={user.status === true}
                             onChange={(e) => handleCheckboxChange(user.id, e.target.checked, user)}
                         />
                         }
                     </TableItem>
 
-                    <TableItem className="hover:text-gray-400 underline underline-offset-2">
+                    <TableItem className=" w-[180px] hover:text-gray-400 underline underline-offset-2">
                         <button 
-                            className="py-2 px-4 cursor-pointer w-full text-center" 
+                            className="cursor-pointer w-full text-center" 
                             onClick={() => handleDetailClick(user)}
                         >
                             {user.name}
                         </button>
                     </TableItem>
 
-                    <TableItem>{user.phone}</TableItem>
-                    <TableItem>{user.address}</TableItem>
-                    <TableItem>{user.status === true ? "済" : "未"}</TableItem>
+                    <TableItem className="w-[213px]">{user.phone}</TableItem>
+                    <TableItem className="w-[150px]">{user.address}</TableItem>
+                    <TableItem className="w-[170px]">{user.status === true ? "済" : "未"}</TableItem>
                 </tr>
             ))}
         </tbody>
