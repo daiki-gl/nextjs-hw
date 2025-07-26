@@ -1,8 +1,8 @@
+// app/api/login.ts (Server Action - 最終版)
 'use server'
 import { redirect } from 'next/navigation'
 import path from 'path'
 import { promises as fs } from 'fs'
-import { cookies } from 'next/headers'
 
 export interface LoginResponse {
   errorMessage?: string
@@ -10,68 +10,47 @@ export interface LoginResponse {
 
 interface UserData {
   id: number
-  name: string
-  phone: string
-  address: string
-  status: boolean
-  payment: string
   email?: string
   password?: string
 }
 
-export async function login(login: LoginResponse, formData: FormData) {
-  try {
-    // publicディレクトリ内のJSONファイルの絶対パスを取得
-    const filePath = path.join(
-      process.cwd(),
-      'public',
-      'api',
-      'stub',
-      'IF0001.json'
+export async function login(prevState: LoginResponse, formData: FormData) {
+  // publicディレクトリ内のJSONファイルの絶対パスを取得
+  const filePath = path.join(
+    process.cwd(),
+    'public',
+    'api',
+    'stub',
+    'IF0002.json' // 使用するJSONファイル名を確認
+  )
+
+  // ファイルを読み込む
+  const fileContents = await fs.readFile(filePath, 'utf8')
+  const data: UserData[] = JSON.parse(fileContents) // JSONコンテンツをパース
+
+  // formData から値を取得し、string に変換してトリムする
+  const email = ((formData.get('email') as string) || '').trim()
+  const password = ((formData.get('password') as string) || '').trim()
+
+  // data配列の中から、emailとpasswordフィールドが存在し、かつ入力値に合致するユーザーを探す
+  const foundUser = data.find((user: UserData) => {
+    // user.email と user.password が存在し、かつ入力値と一致するかをチェック
+    return (
+      user.email &&
+      user.password &&
+      user.email === email &&
+      user.password === password
     )
+  })
 
-    // ファイルを読み込む
-    const fileContents = await fs.readFile(filePath, 'utf8')
-    const data = JSON.parse(fileContents)
+  // デバッグログ
+  console.log('Found User:', foundUser ? 'User found!' : 'User NOT found.')
 
-    const email = ((formData.get('email') as string) || '').trim()
-    const password = ((formData.get('password') as string) || '').trim()
-
-    const foundUser = data.find((user: UserData) => {
-      // user.email と user.password が存在し、かつ入力値と一致するかをチェック
-      return (
-        user.email &&
-        user.password &&
-        user.email === email &&
-        user.password === password
-      )
-    })
-
-    if (!foundUser) {
-      throw new Error('パスワードかメールアドレスが正しくありません。')
-    }
-
-    const cookieStore = await cookies()
-    cookieStore.set('auth_token', 'token', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24 * 7,
-      path: '/',
-      sameSite: 'lax',
-    })
-
-    redirect('/')
-  } catch (error) {
-    let errorMessage = 'パスワードかメールアドレスが正しくありません。'
-
-    if (error instanceof Error) {
-      errorMessage = error.message
-    } else if (typeof error === 'string') {
-      errorMessage = error
-    }
-
+  if (!foundUser) {
     return {
-      errorMessage: errorMessage,
+      errorMessage: 'メールアドレスまたはパスワードが正しくありません。',
     } as LoginResponse
+  } else {
+    redirect('/')
   }
 }

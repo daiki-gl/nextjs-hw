@@ -5,9 +5,7 @@
     "phone": "090-1234-5678",
     "address": "123-4567",
     "status": true,
-    "payment": "1000",
-    "email": "yamada1@example.com",
-    "password": "password1"
+    "payment": "1000"
   },
   {
     "id": 2,
@@ -15,9 +13,7 @@
     "phone": "080-9876-5432",
     "address": "234-5678",
     "status": true,
-    "payment": "1000",
-    "email": "sato2@example.com",
-    "password": "password2"
+    "payment": "1000"
   },
   {
     "id": 3,
@@ -25,9 +21,7 @@
     "phone": "070-1111-2222",
     "address": "345-6789",
     "status": false,
-    "payment": "1000",
-    "email": "suzuki3@example.com",
-    "password": "password3"
+    "payment": "1000"
   },
   {
     "id": 4,
@@ -35,9 +29,7 @@
     "phone": "090-3333-4444",
     "address": "456-7890",
     "status": true,
-    "payment": "1000",
-    "email": "takahashi4@example.com",
-    "password": "password4"
+    "payment": "1000"
   },
   {
     "id": 5,
@@ -45,9 +37,7 @@
     "phone": "080-5555-6666",
     "address": "567-8901",
     "status": false,
-    "payment": "1000",
-    "email": "tanaka5@example.com",
-    "password": "password5"
+    "payment": "1000"
   },
   {
     "id": 6,
@@ -55,9 +45,7 @@
     "phone": "070-7777-8888",
     "address": "678-9012",
     "status": false,
-    "payment": "1000",
-    "email": "ito6@example.com",
-    "password": "password6"
+    "payment": "1000"
   },
   {
     "id": 7,
@@ -65,9 +53,7 @@
     "phone": "090-9999-0000",
     "address": "789-0123",
     "status": false,
-    "payment": "1000",
-    "email": "watanabe7@example.com",
-    "password": "password7"
+    "payment": "1000"
   },
   {
     "id": 8,
@@ -75,9 +61,7 @@
     "phone": "080-2222-3333",
     "address": "890-1234",
     "status": false,
-    "payment": "2000",
-    "email": "nakamura8@example.com",
-    "password": "password8"
+    "payment": "2000"
   },
   {
     "id": 9,
@@ -85,9 +69,7 @@
     "phone": "070-4444-5555",
     "address": "901-2345",
     "status": false,
-    "payment": "2000",
-    "email": "kobayashi9@example.com",
-    "password": "password9"
+    "payment": "2000"
   },
   {
     "id": 10,
@@ -95,9 +77,7 @@
     "phone": "090-6666-7711",
     "address": "012-3456",
     "status": false,
-    "payment": "1000",
-    "email": "yamada10@example.com",
-    "password": "password10"
+    "payment": "1000"
   },
   {
     "id": 11,
@@ -105,9 +85,7 @@
     "phone": "080-1234-5678",
     "address": "150-0001",
     "status": false,
-    "payment": "1000",
-    "email": "sato11@example.com",
-    "password": "password11"
+    "payment": "1000"
   },
   {
     "id": 12,
@@ -115,9 +93,7 @@
     "phone": "070-2345-6789",
     "address": "160-0022",
     "status": false,
-    "payment": "1000",
-    "email": "suzuki12@example.com",
-    "password": "password12"
+    "payment": "1000"
   },
   {
     "id": 13,
@@ -125,9 +101,7 @@
     "phone": "090-3456-7890",
     "address": "220-0045",
     "status": false,
-    "payment": "1000",
-    "email": "takahashi13@example.com",
-    "password": "password13"
+    "payment": "1000"
   },
   {
     "id": 14,
@@ -135,9 +109,7 @@
     "phone": "080-4567-8901",
     "address": "530-0011",
     "status": false,
-    "payment": "1000",
-    "email": "ito14@example.com",
-    "password": "password14"
+    "payment": "1000"
   },
   {
     "id": 15,
@@ -145,9 +117,7 @@
     "phone": "070-5678-9012",
     "address": "980-0811",
     "status": false,
-    "payment": "1000",
-    "email": "watanabe15@example.com",
-    "password": "password15"
+    "payment": "1000"
   },
   {
     "id": 16,
@@ -155,9 +125,7 @@
     "phone": "090-6789-0123",
     "address": "460-0008",
     "status": false,
-    "payment": "1000",
-    "email": "nakamura16@example.com",
-    "password": "password16"
+    "payment": "1000"
   },
   {
     "id": 17,
@@ -165,9 +133,7 @@
     "phone": "080-7890-1234",
     "address": "810-0001",
     "status": false,
-    "payment": "1000",
-    "email": "kobayashi17@example.com",
-    "password": "password17"
+    "payment": "1000"
   },
   {
     "id": 18,
@@ -175,9 +141,7 @@
     "phone": "070-8901-2345",
     "address": "064-0820",
     "status": false,
-    "payment": "1000",
-    "email": "kato18@example.com",
-    "password": "password18"
+    "payment": "1000"
   },
   {
     "id": 19,
@@ -185,9 +149,7 @@
     "phone": "090-0000-1111",
     "address": "100-0001",
     "status": true,
-    "payment": "2000",
-    "email": "yamamoto19@example.com",
-    "password": "password19"
+    "payment": "2000"
   },
   {
     "id": 20,
@@ -195,9 +157,7 @@
     "phone": "080-1111-2222",
     "address": "101-0023",
     "status": false,
-    "payment": "1000",
-    "email": "ishii20@example.com",
-    "password": "password20"
+    "payment": "1000"
   },
   {
     "id": 21,
@@ -205,9 +165,7 @@
     "phone": "070-2222-3333",
     "address": "102-0082",
     "status": true,
-    "payment": "1000",
-    "email": "matsumoto21@example.com",
-    "password": "password21"
+    "payment": "1000"
   },
   {
     "id": 22,
@@ -215,9 +173,7 @@
     "phone": "090-3333-4444",
     "address": "103-0004",
     "status": false,
-    "payment": "1000",
-    "email": "inoue22@example.com",
-    "password": "password22"
+    "payment": "1000"
   },
   {
     "id": 23,
@@ -225,9 +181,7 @@
     "phone": "080-4444-5555",
     "address": "104-0061",
     "status": false,
-    "payment": "1000",
-    "email": "murakami23@example.com",
-    "password": "password23"
+    "payment": "1000"
   },
   {
     "id": 24,
@@ -235,9 +189,7 @@
     "phone": "070-5555-6666",
     "address": "105-0013",
     "status": false,
-    "payment": "1000",
-    "email": "abe24@example.com",
-    "password": "password24"
+    "payment": "1000"
   },
   {
     "id": 25,
@@ -245,9 +197,7 @@
     "phone": "090-6666-7777",
     "address": "106-0032",
     "status": true,
-    "payment": "2000",
-    "email": "saito25@example.com",
-    "password": "password25"
+    "payment": "2000"
   },
   {
     "id": 26,
@@ -255,9 +205,7 @@
     "phone": "080-7777-8888",
     "address": "107-0052",
     "status": false,
-    "payment": "1000",
-    "email": "fujita26@example.com",
-    "password": "password26"
+    "payment": "1000"
   },
   {
     "id": 27,
@@ -265,9 +213,7 @@
     "phone": "070-8888-9999",
     "address": "108-0075",
     "status": false,
-    "payment": "1000",
-    "email": "aoki27@example.com",
-    "password": "password27"
+    "payment": "1000"
   },
   {
     "id": 28,
@@ -275,9 +221,7 @@
     "phone": "090-9999-0001",
     "address": "110-0015",
     "status": false,
-    "payment": "1000",
-    "email": "hasegawa28@example.com",
-    "password": "password28"
+    "payment": "1000"
   },
   {
     "id": 29,
@@ -285,9 +229,7 @@
     "phone": "080-0001-2222",
     "address": "111-0034",
     "status": true,
-    "payment": "1000",
-    "email": "morita29@example.com",
-    "password": "password29"
+    "payment": "1000"
   },
   {
     "id": 30,
@@ -295,9 +237,7 @@
     "phone": "070-1112-3333",
     "address": "112-0002",
     "status": false,
-    "payment": "1000",
-    "email": "takeuchi30@example.com",
-    "password": "password30"
+    "payment": "1000"
   },
   {
     "id": 31,
@@ -305,9 +245,7 @@
     "phone": "090-2223-4444",
     "address": "113-0033",
     "status": false,
-    "payment": "1000",
-    "email": "shibata31@example.com",
-    "password": "password31"
+    "payment": "1000"
   },
   {
     "id": 32,
@@ -315,9 +253,7 @@
     "phone": "080-3334-5555",
     "address": "114-0024",
     "status": false,
-    "payment": "2000",
-    "email": "ueda32@example.com",
-    "password": "password32"
+    "payment": "2000"
   },
   {
     "id": 33,
@@ -325,9 +261,7 @@
     "phone": "070-4445-6666",
     "address": "115-0045",
     "status": false,
-    "payment": "1000",
-    "email": "miura33@example.com",
-    "password": "password33"
+    "payment": "1000"
   },
   {
     "id": 34,
@@ -335,9 +269,7 @@
     "phone": "090-5556-7777",
     "address": "116-0011",
     "status": true,
-    "payment": "1000",
-    "email": "okada34@example.com",
-    "password": "password34"
+    "payment": "1000"
   },
   {
     "id": 35,
@@ -345,8 +277,6 @@
     "phone": "080-6667-8888",
     "address": "117-0031",
     "status": false,
-    "payment": "1000",
-    "email": "hashimoto35@example.com",
-    "password": "password35"
+    "payment": "1000"
   }
 ]
