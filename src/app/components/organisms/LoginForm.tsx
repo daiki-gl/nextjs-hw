@@ -1,10 +1,11 @@
 'use client'
 import TextField from '../atoms/TextField';
 import { login } from '@/app/api/login';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 
 const LoginForm = () => {
     const [state,formActions] = useActionState(login,{errorMessage: ''});
+    const [isValid, setIsValid] = useState(true);
   return (
     <form action={formActions}>
         {state.errorMessage && (
@@ -16,21 +17,22 @@ const LoginForm = () => {
         )}
         <TextField
             label='メールアドレス'
-            description='50文字以内で入力して下さい。'
-            maxlength={50}
+            maxlength={20}
             name='email'
             type='email'
             required={true}
             placeholder='sample@example.com'
+            setIsValid={setIsValid}
         />
         <TextField
             label='パスワード'
-            description='50文字以内で入力してください'
+            maxlength={20}
             name='password'
             type='password'
             required={true}
+            setIsValid={setIsValid}
         />
-        <button className='w-full mt-3 bg-blue-500 text-white rounded px-4 py-2 cursor-pointer' type="submit">ログイン</button>
+        <button disabled={!isValid} className={`w-full mt-3 bg-blue-500 text-white rounded px-4 py-2 ${isValid ? 'opacity-100 cursor-pointer' : 'cursor-not-allowed bg-gray-400'}`} type="submit">ログイン</button>
     </form>
   )
 }
