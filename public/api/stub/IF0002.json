@@ -1,22 +1,12 @@
 [
   {
-    "id": 1,
-    "email": "yamada1@example.com",
-    "password": "password1"
-  },
-  {
-    "id": 2,
-    "email": "sato2@example.com",
-    "password": "password2"
-  },
-  {
-    "id": 3,
-    "email": "suzuki3@example.com",
-    "password": "password3"
-  },
-  {
-    "id": 4,
-    "email": "takahashi4@example.com",
-    "password": "password4"
+    "success": true,
+    "data": {
+      "userId": 1,
+      "username": "テストユーザー",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30",
+      "expiresIn":"3600",
+      "roles": ["user","admin"]
+    }
   }
 ]
