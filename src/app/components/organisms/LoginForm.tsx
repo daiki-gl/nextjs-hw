@@ -17,7 +17,7 @@ const LoginForm = () => {
         )}
         <TextField
             label='メールアドレス'
-            maxlength={20}
+            maxlength={254}
             name='email'
             type='email'
             required={true}
