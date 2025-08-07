@@ -6,7 +6,7 @@ export default function SearchTemplate(){
     const {showUserData, setShowUserData} = useShowData();
 
     return (
-        <div>
+        <div className="">
             <SearchPanel showUserData={showUserData} setShowUserData={setShowUserData} />
             <UserList showUserData={showUserData} setShowUserData={setShowUserData}  />
         </div>
