@@ -6,7 +6,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="">
+    <div className="min-h-screen">
       <header className="flex items-center justify-between p-4 bg-gray-800 text-white">
         <div className="w-3/4 mx-auto">
           <Link href="/"><h1 className="text-2xl font-bold">検索画面ヘッダー</h1></Link>

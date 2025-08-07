@@ -76,7 +76,7 @@ export default function UserList({showUserData, setShowUserData}
     }
         
     return (
-        <div className="w-3/5 mx-auto my-10">
+        <div className="w-3/5 mx-auto mt-10">
             <h1 className="text-2xl font-bold">検索結果 *{searchResult && searchResult.length}件</h1>
 
              <table className="w-full mt-5 border-collapse border border-gray-300">
