@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useContext, useState } from 'react';
-import { ShowDataContextType, UserData } from '../common/types';
+import { ShowDataContextType, UserData } from '../../common/types';
 
 
 const ShowDataContext = createContext<ShowDataContextType | null>(null);

@@ -2,7 +2,7 @@
 import { UserData } from "@/app/common/types";
 import TableItem from "../atoms/TableItem";
 import { SetStateAction } from "react";
-import { useShowDataContext } from "@/app/context/ShowDataContext";
+import { useShowDataContext } from "@/app/components/context/ShowDataContext";
 
 interface TableBodyProps {
     showUserData: UserData[] | null;

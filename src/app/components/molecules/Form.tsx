@@ -6,8 +6,8 @@ import Input from "../atoms/Input";
 import { handleSubmit } from "@/app/common/utils/formAction";
 import { regexAdr, regexName, regexPayment, regexPhoneNum } from "@/app/common/utils/regex";
 import { useValidation } from "@/app/common/hooks/useValidation";
-import { useSearchResultContext } from "@/app/context/SearchResultContext";
-import { useIsFormErrContext } from "@/app/context/IsFormErrContext";
+import { useSearchResultContext } from "@/app/components/context/SearchResultContext";
+import { useIsFormErrContext } from "@/app/components/context/IsFormErrContext";
 
 
 export default function Form({userData, setShowUserData, onOpen, type}: {

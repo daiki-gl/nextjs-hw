@@ -1,6 +1,7 @@
 'use client';
+import { SearchResultContextType, UserData } from '@/app/common/types';
 import { createContext, useContext, useState } from 'react';
-import { SearchResultContextType, UserData } from '../common/types';
+
 
 
 const SearchResultContext = createContext<SearchResultContextType | null>(null);
