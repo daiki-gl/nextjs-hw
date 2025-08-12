@@ -5,7 +5,7 @@ import useUserList from "@/app/common/hooks/useUserList";
 import { UserData } from "@/app/common/types";
 import Modal from "../molecules/Modal";
 import useModal from "@/app/common/hooks/useModal";
-import { useTypeContext } from "@/app/context/TypeContext";
+import { useTypeContext } from "@/app/components/context/TypeContext";
 
 export default function SearchPanel({showUserData, setShowUserData}
     : {

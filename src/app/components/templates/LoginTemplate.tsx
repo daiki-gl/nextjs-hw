@@ -1,6 +1,10 @@
-import LoginForm from '@/app/components/organisms/LoginForm';
+'use client'
+import useNotBrowserBack from '@/app/common/hooks/useNotBrowserBack';
+import LoginForm from '../organisms/LoginForm'
 
-export default function LoginPage() {
+const LoginTemplate = () => {
+  useNotBrowserBack('/login');
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -8,5 +12,7 @@ export default function LoginPage() {
         <LoginForm />
       </div>
     </div>
-  );
+  )
 }
+
+export default LoginTemplate

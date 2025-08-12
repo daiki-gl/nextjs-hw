@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useContext, useState } from 'react';
-import { TypeContextType } from '../common/types';
+import { TypeContextType } from '../../common/types';
 
 const TypeContext = createContext<TypeContextType | null>(null);
 

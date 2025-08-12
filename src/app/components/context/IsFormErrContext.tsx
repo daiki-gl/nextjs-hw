@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useContext, useState } from 'react';
-import { IsFormErrContextType } from '../common/types';
+import { IsFormErrContextType } from '../../common/types';
 
 
 const IsFormErrContext = createContext<IsFormErrContextType | null>(null);

@@ -1,12 +1,12 @@
 'use client'
-import { useShowDataContext } from "@/app/context/ShowDataContext";
-import { useTypeContext } from "@/app/context/TypeContext";
+import { useShowDataContext } from "@/app/components/context/ShowDataContext";
+import { useTypeContext } from "@/app/components/context/TypeContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Button from "../atoms/Button";
 import { UserData } from "@/app/common/types";
 import { handleSubmitted } from "@/app/common/utils/formAction";
-import { useSearchResultContext } from "@/app/context/SearchResultContext";
+import { useSearchResultContext } from "@/app/components/context/SearchResultContext";
 import useShowData from "@/app/common/hooks/useShowData";
 
 export default function AddUserList(){

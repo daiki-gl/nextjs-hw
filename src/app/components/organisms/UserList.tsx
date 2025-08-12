@@ -7,9 +7,9 @@ import TableBody from "../molecules/TableBody";
 import Button from "../atoms/Button";
 import useModal from "@/app/common/hooks/useModal";
 import { useRouter } from "next/navigation";
-import { useShowDataContext } from "@/app/context/ShowDataContext";
-import { useSearchResultContext } from "@/app/context/SearchResultContext";
-import { useIsFormErrContext } from "@/app/context/IsFormErrContext";
+import { useShowDataContext } from "@/app/components/context/ShowDataContext";
+import { useSearchResultContext } from "@/app/components/context/SearchResultContext";
+import { useIsFormErrContext } from "@/app/components/context/IsFormErrContext";
 import Pagenation from "../molecules/Pagenation";
 
 

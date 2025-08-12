@@ -1,7 +1,7 @@
-import { IsFormErrContextProvider } from '@/app/context/IsFormErrContext'
-import { SearchResultProvider } from '@/app/context/SearchResultContext'
-import { ShowDataProvider } from '@/app/context/ShowDataContext'
-import { TypeContextProvider } from '@/app/context/TypeContext'
+import { IsFormErrContextProvider } from '@/app/components/context/IsFormErrContext'
+import { SearchResultProvider } from '@/app/components/context/SearchResultContext'
+import { ShowDataProvider } from '@/app/components/context/ShowDataContext'
+import { TypeContextProvider } from '@/app/components/context/TypeContext'
 import React from 'react'
 
 const ContextProviders = ({children}: Readonly<{children: React.ReactNode;}>)  => {
