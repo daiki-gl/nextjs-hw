@@ -2,12 +2,11 @@
 import useShowData from "@/app/common/hooks/useShowData";
 import SearchPanel from "../organisms/SearchPanel";
 import UserList from "../organisms/UserList";
-import useNotBrowserBack from "@/app/common/hooks/useNotBrowserBack";
+import { usePreventBrowserBack } from "@/app/common/hooks/usePreventBrowserBack";
+
 export default function SearchTemplate(){
     const {showUserData, setShowUserData} = useShowData();
-
-    useNotBrowserBack('/search')
-
+      usePreventBrowserBack();
     return (
         <div className="">
             <SearchPanel showUserData={showUserData} setShowUserData={setShowUserData} />

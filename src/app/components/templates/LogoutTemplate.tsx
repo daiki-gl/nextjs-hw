@@ -1,9 +1,10 @@
 'use client'
-import useNotBrowserBack from "@/app/common/hooks/useNotBrowserBack"
+import { usePreventBrowserBack } from "@/app/common/hooks/usePreventBrowserBack"
 import Link from "next/link"
 
+
 const LogoutTemplate = () => {
-useNotBrowserBack('/logout');
+usePreventBrowserBack()
 
   return (
     <div className='h-screen flex flex-col justify-center items-center -mb-[56px]'>
