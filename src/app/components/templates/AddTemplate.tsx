@@ -1,9 +1,9 @@
 'use client'
-import useNotBrowserBack from "@/app/common/hooks/useNotBrowserBack"
+import { usePreventBrowserBack } from "@/app/common/hooks/usePreventBrowserBack"
 import AddUserList from "../organisms/AddUserList"
 
 const AddTemplate = () => {
-  useNotBrowserBack('/add')
+  usePreventBrowserBack();
   return (
         <div>
             <main className="w-full">

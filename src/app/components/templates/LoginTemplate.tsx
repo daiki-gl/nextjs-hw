@@ -1,10 +1,9 @@
 'use client'
-import useNotBrowserBack from '@/app/common/hooks/useNotBrowserBack';
+import { usePreventBrowserBack } from '@/app/common/hooks/usePreventBrowserBack'
 import LoginForm from '../organisms/LoginForm'
 
 const LoginTemplate = () => {
-  useNotBrowserBack('/login');
-
+  usePreventBrowserBack();
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
