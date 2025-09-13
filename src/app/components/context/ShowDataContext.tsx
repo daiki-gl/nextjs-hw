@@ -17,6 +17,6 @@ export const ShowDataProvider = ({ children }: { children: React.ReactNode }) =>
 
 export const useShowDataContext = () => {
   const context = useContext(ShowDataContext);
-  if (!context) throw new Error('useShowDataContext must be used within ShowDataProvider');
+  if (!context) throw new Error(' must be used within ShowDataProvider');
   return context;
 };

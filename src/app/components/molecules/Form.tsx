@@ -99,7 +99,7 @@ const validateForm = (
         <div className="mx-auto w-3/5">
             <form 
             onSubmit={(event)=> handleSubmit(event,userData,setShowUserData,setSearchResult)} 
-            className="flex justify-between flex-wrap" action='/search' method="get">
+            className="flex justify-between flex-wrap" action='/search' method="get" aria-label="form">
                 <Input 
                     inputData={{name:'name',type:'text',placeholder:'名前入力欄'}}
                     inputValue={inputName} 

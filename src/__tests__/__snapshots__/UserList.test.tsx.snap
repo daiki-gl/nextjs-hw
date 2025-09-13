@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`UserListコンポーネント スナップショットが一致すること 1`] = `
+<DocumentFragment>
+  <div
+    class="w-3/5 mx-auto mt-10"
+  >
+    <h1
+      class="text-2xl font-bold"
+    >
+      検索結果 *3件
+    </h1>
+    <table
+      class="w-full mt-5 border-collapse border border-gray-300"
+    >
+      <thead>
+        <tr
+          class="border-b-2 border-gray-300"
+        >
+          <th
+            class="py-3 px-4 text-center w-[70px]"
+          >
+            <input
+              type="checkbox"
+            />
+          </th>
+          <th
+            class="text-center py-2 px-4 border border-gray-300 w-[180px]"
+          >
+            名前
+          </th>
+          <th
+            class="text-center py-2 px-4 border border-gray-300 w-[213px]"
+          >
+            電話番号
+          </th>
+          <th
+            class="text-center py-2 px-4 border border-gray-300 w-[150px]"
+          >
+            住所
+          </th>
+          <th
+            class="text-center py-2 px-4 border border-gray-300 w-[170px]"
+          >
+            ステータス
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          class="border-b border-gray-300"
+        >
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[70px]"
+          >
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300  w-[180px] hover:text-gray-400 underline underline-offset-2"
+          >
+            <button
+              class="cursor-pointer w-full text-center"
+            >
+              山田太郎
+            </button>
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[213px]"
+          >
+            09012345678
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[150px]"
+          >
+            東京都
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[170px]"
+          >
+            未
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-300"
+        >
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[70px]"
+          >
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300  w-[180px] hover:text-gray-400 underline underline-offset-2"
+          >
+            <button
+              class="cursor-pointer w-full text-center"
+            >
+              佐藤花子
+            </button>
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[213px]"
+          >
+            08098765432
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[150px]"
+          >
+            大阪府
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[170px]"
+          >
+            未
+          </td>
+        </tr>
+        <tr
+          class="border-b border-gray-300"
+        >
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[70px]"
+          >
+            <span />
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300  w-[180px] hover:text-gray-400 underline underline-offset-2"
+          >
+            <button
+              class="cursor-pointer w-full text-center"
+            >
+              田中一郎
+            </button>
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[213px]"
+          >
+            07011112222
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[150px]"
+          >
+            神奈川県
+          </td>
+          <td
+            class="text-center py-2 px-4 border border-gray-300 w-[170px]"
+          >
+            済
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      class="w-full text-center my-7"
+    >
+      <div
+        data-testid="pagination-mock"
+      >
+        Pagination: limit=10 data-length=3
+      </div>
+      <button
+        class="cursor-pointer  
+                
+                
+                bg-blue-500 rounded-md px-4 py-2 mr-6 mt-4 text-white
+                 hover:bg-blue-600  
+                "
+        type="button"
+      >
+        閉じる
+      </button>
+      <button
+        class="cursor-pointer bg-blue-500 rounded-md px-4 py-2 mr-6 mt-4 text-white  
+                            bg-gray-400 !cursor-not-allowed opacity-50"
+        disabled=""
+      >
+        追加
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

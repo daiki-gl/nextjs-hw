@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Rendering the Home page Renders Correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]"
+  >
+    <main
+      class="flex gap-[32px] row-start-2 items-center sm:items-start"
+    >
+      <a
+        class="px-4 py-2 text-white bg-blue-500 rounded-md cursor-pointer"
+        href="/search"
+      >
+        ボタンA
+      </a>
+      <a
+        class="px-4 py-2 text-white bg-blue-500 rounded-md cursor-pointer"
+        href="/search"
+      >
+        ボタンB
+      </a>
+    </main>
+  </div>
+</DocumentFragment>
+`;
