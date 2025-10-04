@@ -2,7 +2,7 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SearchPanel from '../app/components/organisms/SearchPanel';
 import { getUsers } from '../app/common/utils/serverActions';
-import { IsFormErrContextProvider } from '../app/components/context/IsFormErrContext';
+import { IsFormErrContextProvider, useIsFormErrContext } from '../app/components/context/IsFormErrContext';
 import { TypeContextProvider } from '../app/components/context/TypeContext';
 import { SearchResultProvider } from '../app/components/context/SearchResultContext';
 import { ShowDataProvider } from '../app/components/context/ShowDataContext';
@@ -25,8 +25,18 @@ jest.mock('../app/common/utils/formAction', () => ({
   handleInputChange: jest.fn(),
 }));
 
+jest.mock('../app/components/context/IsFormErrContext', () => ({
+  ...jest.requireActual('../app/components/context/IsFormErrContext'),
+  useIsFormErrContext: jest.fn(),
+}));
+
+const mockSetIsFormErr = jest.fn();
+(useIsFormErrContext as jest.Mock).mockReturnValue({
+  isFormErr: {}, // デフォルトで空のオブジェクトを返す
+  setIsFormErr: mockSetIsFormErr,
+});
+
 describe('SearchPanel', () => {
-// コンテキストプロバイダーでラップしてレンダリングするヘルパー関数
 const renderComponent = (type = "list") => {
 Object.defineProperty(window, 'sessionStorage', {
   value: {
@@ -53,15 +63,12 @@ Object.defineProperty(window, 'sessionStorage', {
   };
 
   it('初期ロード時にLoading...と表示され、その後フォームが表示される', async () => {
-    // getUsersが解決するPromiseを遅延させることで、ローディング状態をテスト可能にする
     (getUsers as jest.Mock).mockImplementationOnce(() => new Promise(resolve => setTimeout(() => resolve(mockUsers), 100)));
     renderComponent();
     await waitFor(() => {
-      // フォームの要素がレンダリングされていることを確認
       expect(screen.getByLabelText('名前')).toBeInTheDocument();
       expect(screen.getByLabelText('電話番号')).toBeInTheDocument();
       expect(screen.getByLabelText('郵便番号')).toBeInTheDocument();
-      // ボタンのテキストを確認
       expect(screen.getByRole('button', { name: 'help' })).toBeInTheDocument();
       const searchButton = screen.getByRole('button', { name: '検索' });
       expect(searchButton).toBeInTheDocument();
@@ -75,9 +82,7 @@ Object.defineProperty(window, 'sessionStorage', {
       const nameInput = screen.getByLabelText('名前');
       const form = screen.getByRole('form');
       expect(form).toBeInTheDocument();
-      // 入力値をセットして検索ボタンを有効にする
       fireEvent.change(nameInput, { target: { value: 'テスト太郎' } });
-      // フォームを送信
       fireEvent.submit(form);
       // handleSubmitが呼び出されたことを確認
       expect(handleSubmit).toHaveBeenCalledTimes(1);
@@ -102,5 +107,48 @@ Object.defineProperty(window, 'sessionStorage', {
     expect(asFragment()).toMatchSnapshot();
   });
   });
+
+  it('sessionStorageのsearchTypeがlistの時、郵便番号の入力フィールドが表示される', async () => {
+    renderComponent("list");
+    await waitFor(() => {
+      expect(screen.getByLabelText('郵便番号')).toBeInTheDocument();
+    });
+  });
+
+  it('sessionStorageのsearchTypeがdetailの時、FromとToの金額の入力フィールドが表示される', async () => {
+    renderComponent("detail");
+    await waitFor(() => {
+      expect(screen.getByLabelText('From')).toBeInTheDocument();
+      expect(screen.getByLabelText('To')).toBeInTheDocument();  
+    });
+  });
   
+  it('searchTypeがdetailの時のスナップショットテスト', async () => { 
+      Object.defineProperty(window, 'sessionStorage', {
+          value: {
+              getItem: jest.fn().mockReturnValue("detail"),
+        setItem: jest.fn(),
+        removeItem: jest.fn(),
+        clear: jest.fn(),
+      },
+      writable: true,
+    });
+    const { asFragment } = render(
+      <IsFormErrContextProvider>
+        <TypeContextProvider>
+          <SearchResultProvider>
+            <ShowDataProvider>
+              <SearchPanel showUserData={null} setShowUserData={function (): void {
+                            throw new Error('Function not implemented.');
+                        } } />
+            </ShowDataProvider>
+          </SearchResultProvider>
+        </TypeContextProvider>
+      </IsFormErrContextProvider>
+    );
+    await waitFor(() => {
+    expect(asFragment()).toMatchSnapshot();
+  });
+  });
 });
+
