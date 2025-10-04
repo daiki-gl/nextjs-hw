@@ -122,6 +122,19 @@ Object.defineProperty(window, 'sessionStorage', {
       expect(screen.getByLabelText('To')).toBeInTheDocument();  
     });
   });
+
+  it('helpボタンをクリックするとモーダルが開かれること', async () => {
+    renderComponent('detail');
+    expect(screen.queryByText('モーダル')).not.toBeInTheDocument();
+
+    // helpボタンを見つけてクリック
+    const helpButton = screen.getByText('help');
+    fireEvent.click(helpButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('モーダル')).toBeInTheDocument();
+    });
+  });
   
   it('searchTypeがdetailの時のスナップショットテスト', async () => { 
       Object.defineProperty(window, 'sessionStorage', {
